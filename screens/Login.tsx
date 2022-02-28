@@ -5,7 +5,7 @@ import { RadioButton } from 'react-native-paper';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 
-export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
+export default function Login() {
   const [checked, setChecked] = useState('first');
 
   return (
@@ -28,7 +28,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
         onPress={() => setChecked('second')}
       />
       <TouchableOpacity
-        onPress={() => alert('Hello, world!')}
+        onPress={() => alert('hello')}
         style={{ backgroundColor: 'blue' }}>
         <Text style={{ fontSize: 20, color: '#fff' }}>Войти</Text>
       </TouchableOpacity>
