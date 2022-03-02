@@ -5,7 +5,7 @@ import { RadioButton } from 'react-native-paper';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 
-export default function Login() {
+export default function Login(props: any) {
   const [checked, setChecked] = useState('first');
 
   return (
@@ -17,18 +17,20 @@ export default function Login() {
       <TextInput placeholder="useless placeholder"
         keyboardType="numeric" />
       <Text>Выберите пол:</Text>
+      <Text>Мужской</Text>
       <RadioButton
         value="first"
         status={ checked === 'first' ? 'checked' : 'unchecked' }
         onPress={() => setChecked('first')}
       />
+      <Text>Женский</Text>
       <RadioButton
         value="second"
         status={ checked === 'second' ? 'checked' : 'unchecked' }
         onPress={() => setChecked('second')}
       />
       <TouchableOpacity
-        onPress={() => alert('hello')}
+        onPress={() => props.navigation.navigate('Root')}
         style={{ backgroundColor: 'blue' }}>
         <Text style={{ fontSize: 20, color: '#fff' }}>Войти</Text>
       </TouchableOpacity>
@@ -40,7 +42,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     // alignItems: 'center',
-    // justifyContent: 'center',
+    justifyContent: 'center',
   },
   title: {
     fontSize: 20,

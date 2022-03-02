@@ -1,37 +1,16 @@
 import { useState } from 'react';
 import { StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-import { RadioButton } from 'react-native-paper';
+import EditScreenInfo from '../components/EditScreenInfo';
 
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
-  const [checked, setChecked] = useState('first');
-
   return (
     <View style={styles.container}>
-      <Text>Ввведите ваше имя:</Text>
-      <TextInput placeholder="useless placeholder"
-        keyboardType="numeric" />
-      <Text>Введите ваш возраст:</Text>
-      <TextInput placeholder="useless placeholder"
-        keyboardType="numeric" />
-      <Text>Выберите пол:</Text>
-      <RadioButton
-        value="first"
-        status={ checked === 'first' ? 'checked' : 'unchecked' }
-        onPress={() => setChecked('first')}
-      />
-      <RadioButton
-        value="second"
-        status={ checked === 'second' ? 'checked' : 'unchecked' }
-        onPress={() => setChecked('second')}
-      />
-      <TouchableOpacity
-        onPress={() => alert('Hello, world!')}
-        style={{ backgroundColor: 'blue' }}>
-        <Text style={{ fontSize: 20, color: '#fff' }}>Войти</Text>
-      </TouchableOpacity>
+      <Text style={styles.title}>Tab One</Text>
+      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+      <EditScreenInfo path="/screens/TabOneScreen.tsx" />
     </View>
   );
 }
@@ -39,8 +18,8 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // alignItems: 'center',
-    // justifyContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   title: {
     fontSize: 20,
