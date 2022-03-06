@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import { StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-import { RadioButton } from 'react-native-paper';
+import { StyleSheet, TextInput } from 'react-native';
+import { Button, RadioButton } from 'react-native-paper';
 
 import { Text, View } from '../components/Themed';
-import { RootTabScreenProps } from '../types';
 
 export default function Login(props: any) {
   const [checked, setChecked] = useState('first');
@@ -29,11 +28,11 @@ export default function Login(props: any) {
         status={ checked === 'second' ? 'checked' : 'unchecked' }
         onPress={() => setChecked('second')}
       />
-      <TouchableOpacity
+      <Button
         onPress={() => props.navigation.navigate('Root')}
         style={{ backgroundColor: 'blue' }}>
         <Text style={{ fontSize: 20, color: '#fff' }}>Войти</Text>
-      </TouchableOpacity>
+      </Button>
     </View>
   );
 }

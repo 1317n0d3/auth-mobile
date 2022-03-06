@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { Image, ImageProps, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { Button } from 'react-native-paper';
 import EditScreenInfo from '../components/EditScreenInfo';
 
 import { Text, View } from '../components/Themed';
@@ -8,9 +9,23 @@ import { RootTabScreenProps } from '../types';
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/TabOneScreen.tsx" />
+      <Text style={styles.title}>Здравствуйте, имя</Text>
+      <Image source={{uri: 'https://media.istockphoto.com/vectors/user-icon-flat-isolated-on-white-background-user-symbol-vector-vector-id1300845620?k=20&m=1300845620&s=612x612&w=0&h=f4XTZDAv7NPuZbG0habSpU0sNgECM0X7nbKzTUta3n8='}} style={{ width: 100, height: 100, borderRadius: 100 }} />
+      <Button
+        onPress={() => alert('message')}
+        style={{ backgroundColor: 'blue' }}>
+        <Text style={{ fontSize: 20, color: '#fff' }}>Сменить фон</Text>
+      </Button>
+      <Button
+        onPress={() => alert('message')}
+        style={{ backgroundColor: 'blue' }}>
+        <Text style={{ fontSize: 20, color: '#fff' }}>Сменить имя</Text>
+      </Button>
+      <Button
+        onPress={() => alert('message')}
+        style={{ backgroundColor: 'blue' }}>
+        <Text style={{ fontSize: 20, color: '#fff' }}>Перейти</Text>
+      </Button>
     </View>
   );
 }
