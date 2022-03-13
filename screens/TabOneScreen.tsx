@@ -10,7 +10,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Здравствуйте, имя</Text>
-      <Image source={{uri: 'https://media.istockphoto.com/vectors/user-icon-flat-isolated-on-white-background-user-symbol-vector-vector-id1300845620?k=20&m=1300845620&s=612x612&w=0&h=f4XTZDAv7NPuZbG0habSpU0sNgECM0X7nbKzTUta3n8='}} style={{ width: 100, height: 100, borderRadius: 100 }} />
+      <Image source={require('../assets/images/user-image.jpg')} style={{ width: 100, height: 100, borderRadius: 100 }} />
       <Button
         onPress={() => alert('message')}
         style={{ backgroundColor: 'blue' }}>
