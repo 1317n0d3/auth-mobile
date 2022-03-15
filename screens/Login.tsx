@@ -1,19 +1,21 @@
 import { useState } from 'react';
-import { StyleSheet, TextInput } from 'react-native';
+import { NativeSyntheticEvent, StyleSheet, TextInput, TextInputChangeEventData } from 'react-native';
 import { Button, RadioButton } from 'react-native-paper';
 
 import { Text, View } from '../components/Themed';
 
 export default function Login(props: any) {
-  const [checked, setChecked] = useState('first');
+  const [checked, setChecked] = useState('first'),
+    [userName, setUserName] = useState(),
+    [userAge, setUserAge] = useState(0);
 
   return (
     <View style={styles.container}>
       <Text>Ввведите ваше имя:</Text>
-      <TextInput placeholder="useless placeholder"
-        keyboardType="numeric" />
+      <TextInput style={ styles.input } placeholder="input name"
+        /*onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => setUserName()}*/ />
       <Text>Введите ваш возраст:</Text>
-      <TextInput placeholder="useless placeholder"
+      <TextInput style={ styles.input } placeholder="input age"
         keyboardType="numeric" />
       <Text>Выберите пол:</Text>
       <Text>Мужской</Text>
@@ -39,9 +41,7 @@ export default function Login(props: any) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    // alignItems: 'center',
-    justifyContent: 'center',
+    margin: 20,
   },
   title: {
     fontSize: 20,
