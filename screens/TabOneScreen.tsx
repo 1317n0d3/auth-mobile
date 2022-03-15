@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Image, ImageProps, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import { Button } from 'react-native-paper';
-import EditScreenInfo from '../components/EditScreenInfo';
 
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';

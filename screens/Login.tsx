@@ -3,33 +3,33 @@ import { NativeSyntheticEvent, StyleSheet, TextInput, TextInputChangeEventData }
 import { Button, RadioButton } from 'react-native-paper';
 
 import { Text, View } from '../components/Themed';
-import { RootTabScreenProps } from '../types';
 
 export default function Login(props: any) {
-  const [checked, setChecked] = useState('first'),
-    [userName, setUserName] = useState(),
-    [userAge, setUserAge] = useState(0);
+  const [checked, setChecked] = useState<string>('male'),
+    [userName, setUserName] = useState<NativeSyntheticEvent<TextInputChangeEventData>>(),
+    [userAge, setUserAge] = useState<NativeSyntheticEvent<TextInputChangeEventData>>();
 
   return (
     <View style={styles.container}>
       <Text>Ввведите ваше имя:</Text>
       <TextInput style={ styles.input } placeholder="input name"
-        /*onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => setUserName()}*/ />
+        onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => setUserName(text)} />
       <Text>Введите ваш возраст:</Text>
       <TextInput style={ styles.input } placeholder="input age"
-        keyboardType="numeric" />
+        keyboardType="numeric"
+        onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => setUserAge(text)} />
       <Text>Выберите пол:</Text>
       <Text>Мужской</Text>
       <RadioButton
         value="male"
-        status={ checked === 'first' ? 'checked' : 'unchecked' }
-        onPress={() => setChecked('first')}
+        status={ checked === 'male' ? 'checked' : 'unchecked' }
+        onPress={() => setChecked('male')}
       />
       <Text>Женский</Text>
       <RadioButton
         value="female"
-        status={ checked === 'second' ? 'checked' : 'unchecked' }
-        onPress={() => setChecked('second')}
+        status={ checked === 'female' ? 'checked' : 'unchecked' }
+        onPress={() => setChecked('female')}
       />
       <Button
         onPress={() => {
