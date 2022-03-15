@@ -3,6 +3,7 @@ import { NativeSyntheticEvent, StyleSheet, TextInput, TextInputChangeEventData }
 import { Button, RadioButton } from 'react-native-paper';
 
 import { Text, View } from '../components/Themed';
+import { RootTabScreenProps } from '../types';
 
 export default function Login(props: any) {
   const [checked, setChecked] = useState('first'),
@@ -20,18 +21,20 @@ export default function Login(props: any) {
       <Text>Выберите пол:</Text>
       <Text>Мужской</Text>
       <RadioButton
-        value="first"
+        value="male"
         status={ checked === 'first' ? 'checked' : 'unchecked' }
         onPress={() => setChecked('first')}
       />
       <Text>Женский</Text>
       <RadioButton
-        value="second"
+        value="female"
         status={ checked === 'second' ? 'checked' : 'unchecked' }
         onPress={() => setChecked('second')}
       />
       <Button
-        onPress={() => props.navigation.navigate('Root')}
+        onPress={() => {
+          props.navigation.navigate('Root')
+        }}
         style={{ backgroundColor: 'blue' }}>
         <Text style={{ fontSize: 20, color: '#fff' }}>Войти</Text>
       </Button>
@@ -57,5 +60,7 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     padding: 10,
+    color: 'white',
+    borderColor: 'white',
   },
 });
