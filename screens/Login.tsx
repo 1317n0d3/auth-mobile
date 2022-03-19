@@ -5,7 +5,7 @@ import { Button, RadioButton } from 'react-native-paper';
 import { Text, View } from '../components/Themed';
 
 export default function Login(props: any) {
-  const [checked, setChecked] = useState<string>('male'),
+  const [userGender, setUserGender] = useState<string>('male'),
     [userName, setUserName] = useState<NativeSyntheticEvent<TextInputChangeEventData>>(),
     [userAge, setUserAge] = useState<NativeSyntheticEvent<TextInputChangeEventData>>();
 
@@ -22,18 +22,18 @@ export default function Login(props: any) {
       <Text>Мужской</Text>
       <RadioButton
         value="male"
-        status={ checked === 'male' ? 'checked' : 'unchecked' }
-        onPress={() => setChecked('male')}
+        status={ userGender === 'male' ? 'checked' : 'unchecked' }
+        onPress={() => setUserGender('male')}
       />
       <Text>Женский</Text>
       <RadioButton
         value="female"
-        status={ checked === 'female' ? 'checked' : 'unchecked' }
-        onPress={() => setChecked('female')}
+        status={ userGender === 'female' ? 'checked' : 'unchecked' }
+        onPress={() => setUserGender('female')}
       />
       <Button
         onPress={() => {
-          props.navigation.navigate('Root')
+          props.navigation.navigate('Root', { userName, userAge, userGender })
         }}
         style={{ backgroundColor: 'blue' }}>
         <Text style={{ fontSize: 20, color: '#fff' }}>Войти</Text>

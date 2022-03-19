@@ -5,10 +5,16 @@ import { Button } from 'react-native-paper';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 
-export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
+export default function TabOneScreen({ navigation, route }: RootTabScreenProps<'TabOne'>) {
+
+  const { userName, userAge, userGender } = route.params;
+
+  console.log(route);
+  
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Здравствуйте, имя</Text>
+      <Text style={styles.title}>Здравствуйте, {userName}</Text>
       <Image source={require('../assets/images/userImage.jpg')} style={{ width: 100, height: 100, borderRadius: 100 }} />
       <Button
         onPress={() => alert('message')}
