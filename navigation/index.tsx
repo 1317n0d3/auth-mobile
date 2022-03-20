@@ -12,10 +12,10 @@ import { ColorSchemeName, Pressable } from 'react-native';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import Login from '../screens/Login';
+import LoginScreen from '../screens/LoginScreen';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
-import TabOneScreen from '../screens/TabOneScreen';
+import NewsScreen from '../screens/NewsScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
@@ -39,7 +39,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 function RootNavigator() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Welcome" component={Login} />
+      <Stack.Screen name="Welcome" component={LoginScreen} />
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
@@ -55,21 +55,20 @@ function RootNavigator() {
  */
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
-function BottomTabNavigator({ navigation, route }: RootTabScreenProps<'TabOne'>) {
+function BottomTabNavigator({ navigation, route }: RootTabScreenProps<'News'>) {
   const colorScheme = useColorScheme(),
     { userName, userAge, userGender } = route.params;
 
   return (
     <BottomTab.Navigator
-      initialRouteName="TabOne"
+      initialRouteName="News"
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme].tint,
       }}>
       <BottomTab.Screen
-        name="TabOne"
-        component={TabOneScreen}
-        initialParams={{userAge: userAge, userName: userName, userGender: userGender}}
-        options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
+        name="News"
+        component={NewsScreen}
+        options={({ navigation }: RootTabScreenProps<'News'>) => ({
           title: 'News',
           tabBarIcon: ({ color }) => <TabBarIcon name="file-text" color={color} />,
           headerRight: () => (
@@ -92,8 +91,8 @@ function BottomTabNavigator({ navigation, route }: RootTabScreenProps<'TabOne'>)
         name="TabTwo"
         component={TabTwoScreen}
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Calculator',
+          tabBarIcon: ({ color }) => <TabBarIcon name="calculator" color={color} />,
           headerRight: () => (
             <Pressable
               onPress={() => navigation.navigate('Modal', {userName, userAge, userGender})}

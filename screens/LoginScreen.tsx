@@ -4,7 +4,7 @@ import { Button, RadioButton } from 'react-native-paper';
 
 import { Text, View } from '../components/Themed';
 
-export default function Login(props: any) {
+export default function LoginScreen(props: any) {
   const [userGender, setUserGender] = useState<string>('male'),
     [userName, setUserName] = useState<NativeSyntheticEvent<TextInputChangeEventData>>(),
     [userAge, setUserAge] = useState<NativeSyntheticEvent<TextInputChangeEventData>>();

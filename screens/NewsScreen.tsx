@@ -5,7 +5,7 @@ import { Button } from 'react-native-paper';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 
-export default function TabOneScreen({ navigation, route }: RootTabScreenProps<'TabOne'>) {
+export default function NewsScreen({ navigation, route }: RootTabScreenProps<'News'>) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Здравствуйте</Text>
