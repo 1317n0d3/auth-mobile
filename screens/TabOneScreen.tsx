@@ -8,13 +8,12 @@ import { RootTabScreenProps } from '../types';
 export default function TabOneScreen({ navigation, route }: RootTabScreenProps<'TabOne'>) {
 
   const { userName, userAge, userGender } = route.params;
-
-  console.log(route);
+  const name: string = userName.nativeEvent.text;
+  console.log(route, name);
   
-
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Здравствуйте, {userName}</Text>
+      <Text style={styles.title}>Здравствуйте, {name}</Text>
       <Image source={require('../assets/images/userImage.jpg')} style={{ width: 100, height: 100, borderRadius: 100 }} />
       <Button
         onPress={() => alert('message')}

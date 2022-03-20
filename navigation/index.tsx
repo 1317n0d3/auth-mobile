@@ -55,8 +55,11 @@ function RootNavigator() {
  */
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
-function BottomTabNavigator() {
+function BottomTabNavigator({ navigation, route }: RootTabScreenProps<'TabOne'>) {
   const colorScheme = useColorScheme();
+  const { userName, userAge, userGender } = route.params;
+
+  console.log(route);
 
   return (
     <BottomTab.Navigator
@@ -67,9 +70,10 @@ function BottomTabNavigator() {
       <BottomTab.Screen
         name="TabOne"
         component={TabOneScreen}
+        initialParams={{userAge: userAge, userName: userName, userGender: userGender}}
         options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
           title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="registered" color={color} />,
           headerRight: () => (
             <Pressable
               onPress={() => navigation.navigate('Modal')}
