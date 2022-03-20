@@ -56,10 +56,8 @@ function RootNavigator() {
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator({ navigation, route }: RootTabScreenProps<'TabOne'>) {
-  const colorScheme = useColorScheme();
-  const { userName, userAge, userGender } = route.params;
-
-  console.log(route);
+  const colorScheme = useColorScheme(),
+    { userName, userAge, userGender } = route.params;
 
   return (
     <BottomTab.Navigator
@@ -72,8 +70,8 @@ function BottomTabNavigator({ navigation, route }: RootTabScreenProps<'TabOne'>)
         component={TabOneScreen}
         initialParams={{userAge: userAge, userName: userName, userGender: userGender}}
         options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="registered" color={color} />,
+          title: 'News',
+          tabBarIcon: ({ color }) => <TabBarIcon name="file-text" color={color} />,
           headerRight: () => (
             <Pressable
               onPress={() => navigation.navigate('Modal', {userName, userAge, userGender})}
@@ -81,7 +79,7 @@ function BottomTabNavigator({ navigation, route }: RootTabScreenProps<'TabOne'>)
                 opacity: pressed ? 0.5 : 1,
               })}>
               <FontAwesome
-                name="info-circle"
+                name="user-circle"
                 size={25}
                 color={Colors[colorScheme].text}
                 style={{ marginRight: 15 }}
@@ -96,6 +94,20 @@ function BottomTabNavigator({ navigation, route }: RootTabScreenProps<'TabOne'>)
         options={{
           title: 'Tab Two',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          headerRight: () => (
+            <Pressable
+              onPress={() => navigation.navigate('Modal', {userName, userAge, userGender})}
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}>
+              <FontAwesome
+                name="user-circle"
+                size={25}
+                color={Colors[colorScheme].text}
+                style={{ marginRight: 15 }}
+              />
+            </Pressable>
+          ),
         }}
       />
     </BottomTab.Navigator>
