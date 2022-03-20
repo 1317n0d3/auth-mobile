@@ -76,7 +76,7 @@ function BottomTabNavigator({ navigation, route }: RootTabScreenProps<'TabOne'>)
           tabBarIcon: ({ color }) => <TabBarIcon name="registered" color={color} />,
           headerRight: () => (
             <Pressable
-              onPress={() => navigation.navigate('Modal')}
+              onPress={() => navigation.navigate('Modal', {userName, userAge, userGender})}
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
               })}>

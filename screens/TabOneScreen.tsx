@@ -6,30 +6,10 @@ import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 
 export default function TabOneScreen({ navigation, route }: RootTabScreenProps<'TabOne'>) {
-
-  const { userName, userAge, userGender } = route.params;
-  const name: string = userName.nativeEvent.text;
-  console.log(route, name);
-  
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Здравствуйте, {name}</Text>
+      <Text style={styles.title}>Здравствуйте</Text>
       <Image source={require('../assets/images/userImage.jpg')} style={{ width: 100, height: 100, borderRadius: 100 }} />
-      <Button
-        onPress={() => alert('message')}
-        style={{ backgroundColor: 'blue' }}>
-        <Text style={{ fontSize: 20, color: '#fff' }}>Сменить фон</Text>
-      </Button>
-      <Button
-        onPress={() => alert('message')}
-        style={{ backgroundColor: 'blue' }}>
-        <Text style={{ fontSize: 20, color: '#fff' }}>Сменить имя</Text>
-      </Button>
-      <Button
-        onPress={() => alert('message')}
-        style={{ backgroundColor: 'blue' }}>
-        <Text style={{ fontSize: 20, color: '#fff' }}>Перейти</Text>
-      </Button>
     </View>
   );
 }
