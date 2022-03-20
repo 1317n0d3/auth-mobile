@@ -16,7 +16,7 @@ const linking: LinkingOptions<RootStackParamList> = {
       Root: {
         screens: {
           News: 'news',
-          TabTwo: 'two',
+          Calculator: 'calculator',
           },
       },
       Welcome: 'login',

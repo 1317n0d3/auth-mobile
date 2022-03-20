@@ -6,7 +6,7 @@ import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 
-export default function ModalScreen({navigation, route}: RootTabScreenProps<'News'>) {
+export default function ModalScreen({navigation, route}: RootTabScreenProps<'Modal'>) {
   const { userName, userAge, userGender } = route.params;
   const name: string = userName.nativeEvent.text;
 
