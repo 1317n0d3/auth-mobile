@@ -53,7 +53,7 @@ export default function LoginScreen(props: any) {
           props.navigation.navigate('Root', { userName, userAge, userGender })          
         }}
         disabled={isInvalid()}
-        style={{ backgroundColor: 'blue' }}>
+        style={styles.button}>
         <Text style={{ fontSize: 20, color: '#fff' }}>Войти</Text>
       </Button>
     </View>
@@ -78,7 +78,8 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     padding: 10,
-    color: 'white',
-    borderColor: 'white',
+  },
+  button: {
+    backgroundColor: 'blue',
   },
 });
