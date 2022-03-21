@@ -12,11 +12,12 @@ export default function LoginScreen(props: any) {
     [isValidAge, setIsValidAge] = useState<boolean>(false);
 
   useEffect(() => {
-    if(userName.length > 2) setIsValidName(true)
-    else setIsValidName(false)
-    
-    if(userAge > 6 && userAge < 100) setIsValidAge(true)
-    else setIsValidAge(false)
+    setIsValidName(userName.length > 2)
+    setIsValidAge(userAge > 6 && userAge < 100)
+
+    userName.split('').forEach((v) => {
+      if(v.charCodeAt(0) < 65 || v.charCodeAt(0) > 122) setIsValidName(false)
+    })
   }, [userAge, userName])
 
   function isInvalid(): boolean {return !(isValidAge && isValidName)}
