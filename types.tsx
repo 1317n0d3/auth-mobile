@@ -7,6 +7,7 @@ import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { CompositeScreenProps, NavigatorScreenParams } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { BaseSyntheticEvent } from 'react';
+import { NativeSyntheticEvent, TextInputChangeEventData } from 'react-native';
 
 declare global {
   namespace ReactNavigation {
@@ -17,7 +18,7 @@ declare global {
 export type RootStackParamList = {
   Welcome: undefined;
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
-  Modal: { userName: BaseSyntheticEvent, userAge: BaseSyntheticEvent, userGender: string };
+  Modal: { userName: string, userAge: string, userGender: string };
   NotFound: undefined;
 };
 
@@ -30,7 +31,7 @@ export type RootTabParamList = {
   Welcome: undefined;
   News: undefined;
   Calculator: undefined;
-  Modal: { userName: BaseSyntheticEvent, userAge: BaseSyntheticEvent, userGender: string };
+  Modal: { userName: string, userAge: string, userGender: string };
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<

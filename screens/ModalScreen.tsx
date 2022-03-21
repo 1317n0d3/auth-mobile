@@ -8,7 +8,6 @@ import { RootTabScreenProps } from '../types';
 
 export default function ModalScreen({navigation, route}: RootTabScreenProps<'Modal'>) {
   const { userName, userAge, userGender } = route.params;
-  const name: string = userName.nativeEvent.text;
 
   return (
     <View style={styles.container}>
@@ -17,7 +16,7 @@ export default function ModalScreen({navigation, route}: RootTabScreenProps<'Mod
       <EditScreenInfo path="/screens/ModalScreen.tsx" /> */}
 
       
-      <Text style={styles.title}>Здравствуйте, {name}</Text>
+      <Text style={styles.title}>Здравствуйте, {userName}</Text>
       <Image source={require('../assets/images/userImage.jpg')} style={{ width: 100, height: 100, borderRadius: 100 }} />
       <Button
         onPress={() => alert('message')}

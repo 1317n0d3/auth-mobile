@@ -6,18 +6,18 @@ import { Text, View } from '../components/Themed';
 
 export default function LoginScreen(props: any) {
   const [userGender, setUserGender] = useState<string>('male'),
-    [userName, setUserName] = useState<NativeSyntheticEvent<TextInputChangeEventData>>(),
-    [userAge, setUserAge] = useState<NativeSyntheticEvent<TextInputChangeEventData>>();
+    [userName, setUserName] = useState<string>(),
+    [userAge, setUserAge] = useState<string>();
 
   return (
     <View style={styles.container}>
       <Text>Ввведите ваше имя:</Text>
       <TextInput style={ styles.input } placeholder="input name"
-        onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => setUserName(text)} />
+        onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => setUserName(text.nativeEvent.text)} />
       <Text>Введите ваш возраст:</Text>
       <TextInput style={ styles.input } placeholder="input age"
         keyboardType="numeric"
-        onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => setUserAge(text)} />
+        onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => setUserAge(text.nativeEvent.text)} />
       <Text>Выберите пол:</Text>
       <Text>Мужской</Text>
       <RadioButton
