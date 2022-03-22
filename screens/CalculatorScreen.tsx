@@ -20,8 +20,8 @@ export default function CalculatorScreen() {
     [isFraction, setIsFraction] = useState<boolean>(false),
     [operation, setOperation] = useState<string>(operations.sum);
 
-  function calculate(): void {
-    let res = 0;
+  function calculate(): number {
+    let res: any = 0;
 
     switch(operation) {
       case operations.sum:
@@ -35,6 +35,12 @@ export default function CalculatorScreen() {
     setBufValue(res)
     setValue('')
     setIsFraction(false)
+
+    res = res + '';
+    if(res.length > maxValueLength) setValue(res.substring(0, 9))
+    res = +res
+
+    return res;
   }
 
   // useEffect(() => {
@@ -203,9 +209,8 @@ export default function CalculatorScreen() {
         </Button>
         <Button
           onPress={() => {
-            calculate()
-            setValue(bufValue + '')
-            // setBufValue(0)
+            setValue(calculate() + '')
+            setBufValue(0)
             setOperation(operations.sum)
           }}
           style={styles.button}>
