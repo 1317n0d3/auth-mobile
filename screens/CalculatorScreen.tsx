@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
 
@@ -5,29 +6,41 @@ import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 
 export default function CalculatorScreen() {
+  const [value, setValue] = useState<string>('0'),
+    [bufValue, setBufValue] = useState<number>(0),
+    [isFraction, setIsFraction] = useState<boolean>(false);
+
+  const maxValueLength = 10
+
+  useEffect(() => {
+    if(!isFraction) setValue(+value + '')
+  }, [value])
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>0</Text>
+      <Text style={{textAlign: 'right', marginRight: 25, marginTop: 15, fontSize: 20}} >{bufValue}</Text>
+      {/* <Text style={styles.title}>{value === '' ? 0 : value}</Text> */}
+      <Text style={styles.title}>{value}</Text>
 
       
       <View style={styles.buttonsRow}>
         <Button
           onPress={() => {
-            alert('1')
+            if(value.length < maxValueLength) setValue(value + 1)
           }}
           style={styles.button}>
           <Text style={ styles.buttonText }>1</Text>
         </Button>
         <Button
           onPress={() => {
-            alert('1')
+            if(value.length < maxValueLength) setValue(value + 2)
           }}
           style={styles.button}>
           <Text style={ styles.buttonText }>2</Text>
         </Button>
         <Button
           onPress={() => {
-            alert('1')
+            if(value.length < maxValueLength) setValue(value + 3)
           }}
           style={styles.button}>
           <Text style={ styles.buttonText }>3</Text>
@@ -44,21 +57,21 @@ export default function CalculatorScreen() {
       <View style={styles.buttonsRow}>
         <Button
           onPress={() => {
-            alert('1')
+            if(value.length < maxValueLength) setValue(value + 4)
           }}
           style={styles.button}>
           <Text style={ styles.buttonText }>4</Text>
         </Button>
         <Button
           onPress={() => {
-            alert('1')
+            if(value.length < maxValueLength) setValue(value + 5)
           }}
           style={styles.button}>
           <Text style={ styles.buttonText }>5</Text>
         </Button>
         <Button
           onPress={() => {
-            alert('1')
+            if(value.length < maxValueLength) setValue(value + 6)
           }}
           style={styles.button}>
           <Text style={ styles.buttonText }>6</Text>
@@ -75,21 +88,21 @@ export default function CalculatorScreen() {
       <View style={styles.buttonsRow}>
         <Button
           onPress={() => {
-            alert('1')
+            if(value.length < maxValueLength) setValue(value + 7)
           }}
           style={styles.button}>
           <Text style={ styles.buttonText }>7</Text>
         </Button>
         <Button
           onPress={() => {
-            alert('1')
+            if(value.length < maxValueLength) setValue(value + 8)
           }}
           style={styles.button}>
           <Text style={ styles.buttonText }>8</Text>
         </Button>
         <Button
           onPress={() => {
-            alert('1')
+            if(value.length < maxValueLength) setValue(value + 9)
           }}
           style={styles.button}>
           <Text style={ styles.buttonText }>9</Text>
@@ -106,21 +119,26 @@ export default function CalculatorScreen() {
       <View style={styles.buttonsRow}>
         <Button
           onPress={() => {
-            alert('1')
+            if(!isFraction) {
+              setValue(value === '' ? '0.' : value + '.')
+              setIsFraction(true)
+            }
           }}
           style={styles.button}>
           <Text style={ styles.buttonText }>,</Text>
         </Button>
         <Button
           onPress={() => {
-            alert('1')
+            if(value.length < maxValueLength) setValue(value + 0)
           }}
           style={styles.button}>
           <Text style={ styles.buttonText }>0</Text>
         </Button>
         <Button
           onPress={() => {
-            alert('1')
+            setValue('0')
+            setBufValue(0)
+            setIsFraction(false)
           }}
           style={styles.button}>
           <Text style={ styles.buttonText }>C</Text>
@@ -151,7 +169,7 @@ export default function CalculatorScreen() {
         </Button>
         <Button
           onPress={() => {
-            alert('1')
+            setValue(-(+value) + '')
           }}
           style={styles.button}>
           <Text style={ styles.buttonText }>+/-</Text>
@@ -177,7 +195,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 50,
     fontWeight: 'bold',
-    paddingTop: 30,
+    paddingTop: 20,
     paddingBottom: 20,
     paddingRight: 20,
     textAlign: 'right',
