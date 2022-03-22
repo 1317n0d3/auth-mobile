@@ -11,6 +11,8 @@ export default function CalculatorScreen() {
     subtract: 'SUB',
     multiplicate: 'MUL',
     division: 'DIV',
+    squareRoot: 'SQR',
+    divisionOfOne: 'DOO',
   };
   
   const maxValueLength = 10
@@ -28,7 +30,13 @@ export default function CalculatorScreen() {
         res = +value + bufValue
         break;
       case operations.subtract:
-        res = +value - bufValue
+        res = bufValue - (+value)
+        break;
+      case operations.division:
+        res = bufValue / (+value)
+        break;
+      case operations.multiplicate:
+        res = bufValue * (+value)
         break;
     }
 
@@ -37,10 +45,7 @@ export default function CalculatorScreen() {
     setIsFraction(false)
 
     res = res + '';
-    if(res.length > maxValueLength) setValue(res.substring(0, 9))
-    res = +res
-
-    return res;
+    return +res.substring(0, maxValueLength);
   }
 
   // useEffect(() => {
@@ -110,9 +115,10 @@ export default function CalculatorScreen() {
         </Button>
         <Button
           onPress={() => {
-            alert('1')
+            setOperation(operations.subtract)
+            calculate()
           }}
-          style={styles.button}>
+          style={operation === operations.subtract ? styles.buttonActive : styles.button}>
           <Text style={ styles.buttonText }>-</Text>
         </Button>
       </View>
@@ -141,9 +147,10 @@ export default function CalculatorScreen() {
         </Button>
         <Button
           onPress={() => {
-            alert('1')
+            setOperation(operations.division)
+            calculate()
           }}
-          style={styles.button}>
+          style={operation === operations.division ? styles.buttonActive : styles.button}>
           <Text style={ styles.buttonText }>/</Text>
         </Button>
       </View>
@@ -178,9 +185,10 @@ export default function CalculatorScreen() {
         </Button>
         <Button
           onPress={() => {
-            alert('1')
+            setOperation(operations.multiplicate)
+            calculate()
           }}
-          style={styles.button}>
+          style={operation === operations.multiplicate ? styles.buttonActive : styles.button}>
           <Text style={ styles.buttonText }>*</Text>
         </Button>
       </View>
