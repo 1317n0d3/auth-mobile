@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { Platform, StyleSheet, Image, ImageProps, TextInput, TouchableOpacity } from 'react-native';
+import { Platform, StyleSheet, Image, ImageProps, TextInput, TouchableOpacity, NativeSyntheticEvent, TextInputChangeEventData } from 'react-native';
 import { Button } from 'react-native-paper';
 
 import EditScreenInfo from '../components/EditScreenInfo';
@@ -11,7 +11,8 @@ export default function ModalScreen({navigation, route}: RootTabScreenProps<'Mod
   const { userName, userAge, userGender } = route.params;
 
   const [isLightTheme, setIsLightTheme] = useState<boolean>(true),
-    [name, setName] = useState<string>(userName);
+    [name, setName] = useState<string>(userName),
+    [isChangeName, setIsChangeName] = useState<boolean>(false);
 
   return (
     <View style={ isLightTheme ? styles.container : styles.containerDark}>
@@ -19,12 +20,19 @@ export default function ModalScreen({navigation, route}: RootTabScreenProps<'Mod
         style={{ width: 100, height: 100, borderRadius: 100, marginTop: 30 }} />
 
       <View style={isLightTheme ? undefined : styles.darkBackground}>
-        <Text style={ isLightTheme ? styles.title : styles.titleDark}>
+        <Text style={!isChangeName ? (isLightTheme ? styles.title : styles.titleDark) : styles.hidden}>
           {name}
         </Text>
 
+        
+      <TextInput style={ isChangeName ? styles.input : styles.hidden } placeholder="Введите имя" value={name}
+        onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => 
+          setName(text.nativeEvent.text)} />
+
         <Button
-          onPress={() => alert('message')}
+          onPress={() => {
+            setIsChangeName(!isChangeName)
+          }}
           style={styles.button}>
           <Text style={{ fontSize: 20, color: '#fff' }}>Сменить имя</Text>
         </Button>
@@ -82,9 +90,13 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     padding: 10,
+    backgroundColor: 'white',
   },
   button: {
     marginTop: 10,
     backgroundColor: '#194bff',
+  },
+  hidden: {
+    display: 'none',
   },
 });
