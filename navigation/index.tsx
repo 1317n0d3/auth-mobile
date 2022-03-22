@@ -20,6 +20,8 @@ import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../typ
 import LinkingConfiguration from './LinkingConfiguration';
 import ProfileScreen from '../screens/ProfileScreen';
 import ConverterScreen from '../screens/ConverterScreen';
+import NotesScreen from '../screens/NotesScreen';
+import GraphicsEditorScreen from '../screens/GraphicsEditorScreen';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -116,6 +118,50 @@ function BottomTabNavigator({ navigation, route }: RootTabScreenProps<'Profile'>
         options={{
           title: 'Converter',
           tabBarIcon: ({ color }) => <TabBarIcon name="university" color={color} />,
+          headerRight: () => (
+            <Pressable
+              onPress={() => navigation.navigate('Profile', {userName, userAge, userGender})}
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}>
+              <FontAwesome
+                name="user-circle"
+                size={25}
+                color={Colors[colorScheme].text}
+                style={{ marginRight: 15 }}
+              />
+            </Pressable>
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="Notes"
+        component={NotesScreen}
+        options={{
+          title: 'Notes',
+          tabBarIcon: ({ color }) => <TabBarIcon name="sticky-note" color={color} />,
+          headerRight: () => (
+            <Pressable
+              onPress={() => navigation.navigate('Profile', {userName, userAge, userGender})}
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}>
+              <FontAwesome
+                name="user-circle"
+                size={25}
+                color={Colors[colorScheme].text}
+                style={{ marginRight: 15 }}
+              />
+            </Pressable>
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="GraphicsEditor"
+        component={GraphicsEditorScreen}
+        options={{
+          title: 'Board',
+          tabBarIcon: ({ color }) => <TabBarIcon name="pencil" color={color} />,
           headerRight: () => (
             <Pressable
               onPress={() => navigation.navigate('Profile', {userName, userAge, userGender})}

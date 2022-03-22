@@ -4,7 +4,7 @@ import { Button, RadioButton } from 'react-native-paper';
 
 import { Text, View } from '../components/Themed';
 
-export default function ConverterScreen() {
+export default function NotesScreen() {
   return (
     <View style={styles.container}></View>
   );

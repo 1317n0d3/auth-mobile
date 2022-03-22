@@ -18,6 +18,8 @@ const linking: LinkingOptions<RootStackParamList> = {
           News: 'news',
           Calculator: 'calculator',
           Converter: 'converter',
+          Notes: 'notes',
+          GraphicsEditor: 'graphicseditor',
           },
       },
       Welcome: 'login',
