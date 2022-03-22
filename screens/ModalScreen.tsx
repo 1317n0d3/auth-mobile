@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Platform, StyleSheet, Image, ImageProps, TextInput, TouchableOpacity, NativeSyntheticEvent, TextInputChangeEventData } from 'react-native';
 import { Button } from 'react-native-paper';
 
@@ -11,8 +11,17 @@ export default function ModalScreen({navigation, route}: RootTabScreenProps<'Mod
   const { userName, userAge, userGender } = route.params;
 
   const [isLightTheme, setIsLightTheme] = useState<boolean>(true),
+    [isValidName, setIsValidName] = useState<boolean>(false),
     [name, setName] = useState<string>(userName),
     [isChangeName, setIsChangeName] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsValidName(name.length > 2)
+
+    name.split('').forEach((v) => {
+      if(v.charCodeAt(0) < 65 || v.charCodeAt(0) > 122) setIsValidName(false)
+    })
+  }, [name])
 
   return (
     <View style={ isLightTheme ? styles.container : styles.containerDark}>
@@ -33,7 +42,8 @@ export default function ModalScreen({navigation, route}: RootTabScreenProps<'Mod
           onPress={() => {
             setIsChangeName(!isChangeName)
           }}
-          style={styles.button}>
+          disabled={!isValidName}
+          style={!isValidName ? styles.buttonDisabled : styles.button}>
           <Text style={{ fontSize: 20, color: '#fff' }}>Сменить имя</Text>
         </Button>
 
@@ -99,4 +109,12 @@ const styles = StyleSheet.create({
   hidden: {
     display: 'none',
   },
+  buttonDisabled: {
+    marginTop: 10,
+    backgroundColor: '#757575',
+  },
+  error: {
+    paddingTop: 10,
+    color: 'red',
+  }
 });
