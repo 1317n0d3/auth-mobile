@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { NativeSyntheticEvent, StyleSheet, TextInput, TextInputChangeEventData } from 'react-native';
+import { NativeSyntheticEvent, ScrollView, StyleSheet, TextInput, TextInputChangeEventData } from 'react-native';
 import { Button, RadioButton } from 'react-native-paper';
 
 import { Text, View } from '../components/Themed';
@@ -23,7 +23,7 @@ export default function LoginScreen(props: any) {
   function isInvalid(): boolean {return !(isValidAge && isValidName)}
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Text style={styles.title}>Ввведите ваше имя:</Text>
       <TextInput style={ styles.input } placeholder="Введите имя"
         onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => 
@@ -60,7 +60,7 @@ export default function LoginScreen(props: any) {
       </Button>
       <Text style={isValidName ? styles.hidden : styles.error}>Имя должно быть длиннее 2х символов без использования ". , ; : -" и тд.</Text>
       <Text style={isValidAge ? styles.hidden : styles.error}>Возраст должен быть больше 6 и меньше 100 лет.</Text>
-    </View>
+    </ScrollView>
   );
 }
 
