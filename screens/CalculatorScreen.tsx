@@ -6,21 +6,46 @@ import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 
 export default function CalculatorScreen() {
-  const [value, setValue] = useState<string>('0'),
-    [bufValue, setBufValue] = useState<number>(0),
-    [isFraction, setIsFraction] = useState<boolean>(false);
-
+  const operations = {
+    sum: 'SUM',
+    subtract: 'SUB',
+    multiplicate: 'MUL',
+    division: 'DIV',
+  };
+  
   const maxValueLength = 10
 
-  useEffect(() => {
-    if(!isFraction) setValue(+value + '')
-  }, [value])
+  const [value, setValue] = useState<string>(''),
+    [bufValue, setBufValue] = useState<number>(0),
+    [isFraction, setIsFraction] = useState<boolean>(false),
+    [operation, setOperation] = useState<string>(operations.sum);
+
+  function calculate(): void {
+    let res = 0;
+
+    switch(operation) {
+      case operations.sum:
+        res = +value + bufValue
+        break;
+      case operations.subtract:
+        res = +value - bufValue
+        break;
+    }
+
+    setBufValue(res)
+    setValue('')
+    setIsFraction(false)
+  }
+
+  // useEffect(() => {
+  //   if(!isFraction) setValue(+value + '')
+  // }, [value])
 
   return (
     <View style={styles.container}>
       <Text style={{textAlign: 'right', marginRight: 25, marginTop: 15, fontSize: 20}} >{bufValue}</Text>
-      {/* <Text style={styles.title}>{value === '' ? 0 : value}</Text> */}
-      <Text style={styles.title}>{value}</Text>
+      <Text style={styles.title}>{value === '' ? 0 : value}</Text>
+      {/* <Text style={styles.title}>{value}</Text> */}
 
       
       <View style={styles.buttonsRow}>
@@ -47,9 +72,10 @@ export default function CalculatorScreen() {
         </Button>
         <Button
           onPress={() => {
-            alert('1')
+            setOperation(operations.sum)
+            calculate()
           }}
-          style={styles.button}>
+          style={operation === operations.sum ? styles.buttonActive : styles.button}>
           <Text style={ styles.buttonText }>+</Text>
         </Button>
       </View>
@@ -136,9 +162,10 @@ export default function CalculatorScreen() {
         </Button>
         <Button
           onPress={() => {
-            setValue('0')
+            setValue('')
             setBufValue(0)
             setIsFraction(false)
+            setOperation(operations.sum)
           }}
           style={styles.button}>
           <Text style={ styles.buttonText }>C</Text>
@@ -176,7 +203,10 @@ export default function CalculatorScreen() {
         </Button>
         <Button
           onPress={() => {
-            alert('1')
+            calculate()
+            setValue(bufValue + '')
+            // setBufValue(0)
+            setOperation(operations.sum)
           }}
           style={styles.button}>
           <Text style={ styles.buttonText }>=</Text>
@@ -221,5 +251,12 @@ const styles = StyleSheet.create({
     lineHeight: 50,
     fontSize: 23,
     color: '#fff',
+  },
+  buttonActive: {
+    width: 70,
+    // height: 70,
+    borderRadius: 100,
+    marginTop: 10,
+    backgroundColor: 'orange',
   },
 });
