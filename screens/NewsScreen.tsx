@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Image, ImageProps, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { Image, ImageProps, ScrollView, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import { Button } from 'react-native-paper';
 
 import { Text, View } from '../components/Themed';
@@ -7,22 +7,90 @@ import { RootTabScreenProps } from '../types';
 
 export default function NewsScreen({ navigation, route }: RootTabScreenProps<'News'>) {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Здравствуйте</Text>
-      <Image source={require('../assets/images/userImage.jpg')} style={{ width: 100, height: 100, borderRadius: 100 }} />
-    </View>
+    <ScrollView style={styles.container}>
+      <View style={styles.newsCard}>
+        <Image source={{ uri: 'https://resize.indiatvnews.com/en/resize/newbucket/715_-/2021/04/breaking-1618535752.jpg' }} style={ styles.image } />
+        <Text style={styles.title}>
+          It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
+        </Text>
+      </View>
+      
+      <View style={styles.newsCard}>
+        <Image source={{ uri: 'https://resize.indiatvnews.com/en/resize/newbucket/715_-/2021/04/breaking-1618535752.jpg' }} style={ styles.image } />
+        <Text style={styles.title}>
+          It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
+        </Text>
+      </View>
+      
+      <View style={styles.newsCard}>
+        <Image source={{ uri: 'https://resize.indiatvnews.com/en/resize/newbucket/715_-/2021/04/breaking-1618535752.jpg' }} style={ styles.image } />
+        <Text style={styles.title}>
+          It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
+        </Text>
+      </View>
+      
+      <View style={styles.newsCard}>
+        <Image source={{ uri: 'https://resize.indiatvnews.com/en/resize/newbucket/715_-/2021/04/breaking-1618535752.jpg' }} style={ styles.image } />
+        <Text style={styles.title}>
+          It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
+        </Text>
+      </View>
+      
+      <View style={styles.newsCard}>
+        <Image source={{ uri: 'https://resize.indiatvnews.com/en/resize/newbucket/715_-/2021/04/breaking-1618535752.jpg' }} style={ styles.image } />
+        <Text style={styles.title}>
+          It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
+        </Text>
+      </View>
+      
+      <View style={styles.newsCard}>
+        <Image source={{ uri: 'https://resize.indiatvnews.com/en/resize/newbucket/715_-/2021/04/breaking-1618535752.jpg' }} style={ styles.image } />
+        <Text style={styles.title}>
+          It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
+        </Text>
+      </View>
+      
+      <View style={styles.newsCard}>
+        <Image source={{ uri: 'https://resize.indiatvnews.com/en/resize/newbucket/715_-/2021/04/breaking-1618535752.jpg' }} style={ styles.image } />
+        <Text style={styles.title}>
+          It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
+        </Text>
+      </View>
+      
+      <View style={styles.newsCard}>
+        <Image source={{ uri: 'https://resize.indiatvnews.com/en/resize/newbucket/715_-/2021/04/breaking-1618535752.jpg' }} style={ styles.image } />
+        <Text style={styles.title}>
+          It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
+        </Text>
+      </View>
+      
+      <View style={styles.newsCard}>
+        <Image source={{ uri: 'https://resize.indiatvnews.com/en/resize/newbucket/715_-/2021/04/breaking-1618535752.jpg' }} style={ styles.image } />
+        <Text style={styles.title}>
+          It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
+        </Text>
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    padding: 10,
+  },
+  newsCard: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+    borderColor: 'black',
+    borderWidth: 1,
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: 'normal',
+    width: 250,
   },
   separator: {
     marginVertical: 30,
@@ -34,5 +102,9 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     padding: 10,
+  },
+  image: {
+    width: 100,
+    height: 100,
   },
 });
