@@ -7,7 +7,7 @@ import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 
-export default function ModalScreen({navigation, route}: RootTabScreenProps<'Modal'>) {
+export default function ProfileScreen({navigation, route}: RootTabScreenProps<'Profile'>) {
   const { userName, userAge, userGender } = route.params;
 
   const [isLightTheme, setIsLightTheme] = useState<boolean>(true),

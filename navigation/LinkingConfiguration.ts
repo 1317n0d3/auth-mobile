@@ -20,7 +20,7 @@ const linking: LinkingOptions<RootStackParamList> = {
           },
       },
       Welcome: 'login',
-      Modal: 'modal',
+      Profile: 'profile',
       NotFound: '*',
     },
   },

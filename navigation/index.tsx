@@ -13,12 +13,12 @@ import { ColorSchemeName, Pressable } from 'react-native';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import LoginScreen from '../screens/LoginScreen';
-import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import NewsScreen from '../screens/NewsScreen';
 import CalculatorScreen from '../screens/CalculatorScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
+import ProfileScreen from '../screens/ProfileScreen';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -43,7 +43,7 @@ function RootNavigator() {
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name="Modal" component={ModalScreen} />
+        <Stack.Screen name="Profile" component={ProfileScreen} />
       </Stack.Group>
     </Stack.Navigator>
   );
@@ -55,7 +55,7 @@ function RootNavigator() {
  */
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
-function BottomTabNavigator({ navigation, route }: RootTabScreenProps<'Modal'>) {
+function BottomTabNavigator({ navigation, route }: RootTabScreenProps<'Profile'>) {
   const colorScheme = useColorScheme(),
     { userName, userAge, userGender } = route.params;
 
@@ -73,7 +73,7 @@ function BottomTabNavigator({ navigation, route }: RootTabScreenProps<'Modal'>) 
           tabBarIcon: ({ color }) => <TabBarIcon name="file-text" color={color} />,
           headerRight: () => (
             <Pressable
-              onPress={() => navigation.navigate('Modal', {userName, userAge, userGender})}
+              onPress={() => navigation.navigate('Profile', {userName, userAge, userGender})}
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
               })}>
@@ -95,7 +95,7 @@ function BottomTabNavigator({ navigation, route }: RootTabScreenProps<'Modal'>) 
           tabBarIcon: ({ color }) => <TabBarIcon name="calculator" color={color} />,
           headerRight: () => (
             <Pressable
-              onPress={() => navigation.navigate('Modal', {userName, userAge, userGender})}
+              onPress={() => navigation.navigate('Profile', {userName, userAge, userGender})}
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
               })}>
