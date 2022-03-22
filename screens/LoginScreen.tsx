@@ -24,26 +24,28 @@ export default function LoginScreen(props: any) {
 
   return (
     <View style={styles.container}>
-      <Text>Ввведите ваше имя:</Text>
-      <TextInput style={ styles.input } placeholder="input name"
+      <Text style={styles.title}>Ввведите ваше имя:</Text>
+      <TextInput style={ styles.input } placeholder="Введите имя"
         onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => 
           setUserName(text.nativeEvent.text)} />
-      <Text>Введите ваш возраст:</Text>
-      <TextInput style={ styles.input } placeholder="input age"
+      <Text style={styles.title}>Введите ваш возраст:</Text>
+      <TextInput style={ styles.input } placeholder="Введите возраст"
         keyboardType="numeric"
         onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => 
           setUserAge(+text.nativeEvent.text)} />
-      <Text>Выберите пол:</Text>
-      <Text>Мужской</Text>
-      <RadioButton
+      <Text style={styles.title}>Выберите пол:</Text>
+      <RadioButton.Item
+        label='Мужской'
+        color='#194bff'
         value="male"
         status={ userGender === 'male' ? 'checked' : 'unchecked' }
         onPress={() => {
           setUserGender('male')
         }}
       />
-      <Text>Женский</Text>
-      <RadioButton
+      <RadioButton.Item
+        label='Женский'
+        color='#194bff'
         value="female"
         status={ userGender === 'female' ? 'checked' : 'unchecked' }
         onPress={() => setUserGender('female')}
@@ -62,11 +64,13 @@ export default function LoginScreen(props: any) {
 
 const styles = StyleSheet.create({
   container: {
-    margin: 20,
+    flex: 1,
+    padding: 20,
   },
   title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 18,
+    fontWeight: '500',
+    padding: 10,
   },
   separator: {
     marginVertical: 30,
@@ -80,6 +84,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   button: {
-    backgroundColor: 'blue',
+    marginTop: 10,
+    backgroundColor: '#194bff',
   },
 });
