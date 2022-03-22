@@ -55,9 +55,11 @@ export default function LoginScreen(props: any) {
           props.navigation.navigate('Root', { userName, userAge, userGender })          
         }}
         disabled={isInvalid()}
-        style={styles.button}>
+        style={isInvalid() ? styles.buttonDisabled : styles.button}>
         <Text style={{ fontSize: 20, color: '#fff' }}>Войти</Text>
       </Button>
+      <Text style={isValidName ? styles.hidden : styles.error}>Имя должно быть длиннее 2х символов без использования ". , ; : -" и тд.</Text>
+      <Text style={isValidAge ? styles.hidden : styles.error}>Возраст должен быть больше 6 и меньше 100 лет.</Text>
     </View>
   );
 }
@@ -87,4 +89,15 @@ const styles = StyleSheet.create({
     marginTop: 10,
     backgroundColor: '#194bff',
   },
+  buttonDisabled: {
+    marginTop: 10,
+    backgroundColor: '#757575',
+  },
+  hidden: {
+    display: 'none',
+  },
+  error: {
+    paddingTop: 10,
+    color: 'red',
+  }
 });
