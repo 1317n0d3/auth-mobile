@@ -50,6 +50,7 @@ export default function CalculatorScreen() {
 
   useEffect(() => {
     setIsFraction(value.includes('.') ? true : false)
+    if(value === 'NaN') setValue('Error')
   }, [value])
 
   return (
