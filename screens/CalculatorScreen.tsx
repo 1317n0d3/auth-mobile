@@ -48,9 +48,9 @@ export default function CalculatorScreen() {
     return +res.substring(0, maxValueLength);
   }
 
-  // useEffect(() => {
-  //   if(!isFraction) setValue(+value + '')
-  // }, [value])
+  useEffect(() => {
+    setIsFraction(value.includes('.') ? true : false)
+  }, [value])
 
   return (
     <View style={styles.container}>
@@ -86,7 +86,7 @@ export default function CalculatorScreen() {
             setOperation(operations.sum)
             calculate()
           }}
-          style={operation === operations.sum ? styles.buttonActive : styles.button}>
+          style={operation === operations.sum ? styles.buttonActive : styles.buttonFunctional}>
           <Text style={ styles.buttonText }>+</Text>
         </Button>
       </View>
@@ -118,7 +118,7 @@ export default function CalculatorScreen() {
             setOperation(operations.subtract)
             calculate()
           }}
-          style={operation === operations.subtract ? styles.buttonActive : styles.button}>
+          style={operation === operations.subtract ? styles.buttonActive : styles.buttonFunctional}>
           <Text style={ styles.buttonText }>-</Text>
         </Button>
       </View>
@@ -150,7 +150,7 @@ export default function CalculatorScreen() {
             setOperation(operations.division)
             calculate()
           }}
-          style={operation === operations.division ? styles.buttonActive : styles.button}>
+          style={operation === operations.division ? styles.buttonActive : styles.buttonFunctional}>
           <Text style={ styles.buttonText }>/</Text>
         </Button>
       </View>
@@ -160,7 +160,6 @@ export default function CalculatorScreen() {
           onPress={() => {
             if(!isFraction) {
               setValue(value === '' ? '0.' : value + '.')
-              setIsFraction(true)
             }
           }}
           style={styles.button}>
@@ -188,7 +187,7 @@ export default function CalculatorScreen() {
             setOperation(operations.multiplicate)
             calculate()
           }}
-          style={operation === operations.multiplicate ? styles.buttonActive : styles.button}>
+          style={operation === operations.multiplicate ? styles.buttonActive : styles.buttonFunctional}>
           <Text style={ styles.buttonText }>*</Text>
         </Button>
       </View>
@@ -196,23 +195,23 @@ export default function CalculatorScreen() {
       <View style={styles.buttonsRow}>
         <Button
           onPress={() => {
-            alert('1')
+            setValue((Math.sqrt((+value)) + '').substring(0, maxValueLength))
           }}
-          style={styles.button}>
+          style={styles.buttonFunctional}>
           <Text style={ styles.buttonText }>√</Text>
         </Button>
         <Button
           onPress={() => {
-            alert('1')
+            setValue(((1 / (+value)) + '').substring(0, maxValueLength))
           }}
-          style={styles.button}>
+          style={styles.buttonFunctional}>
           <Text style={ styles.buttonText }>1/x</Text>
         </Button>
         <Button
           onPress={() => {
             setValue(-(+value) + '')
           }}
-          style={styles.button}>
+          style={styles.buttonFunctional}>
           <Text style={ styles.buttonText }>+/-</Text>
         </Button>
         <Button
@@ -221,7 +220,7 @@ export default function CalculatorScreen() {
             setBufValue(0)
             setOperation(operations.sum)
           }}
-          style={styles.button}>
+          style={styles.buttonFunctional}>
           <Text style={ styles.buttonText }>=</Text>
         </Button>
       </View>
@@ -250,10 +249,9 @@ const styles = StyleSheet.create({
   },
   button: {
     width: 70,
-    // height: 70,
     borderRadius: 100,
     marginTop: 10,
-    backgroundColor: '#194bff',
+    backgroundColor: '#757575',
   },
   buttonsRow: {
     display: 'flex',
@@ -267,9 +265,14 @@ const styles = StyleSheet.create({
   },
   buttonActive: {
     width: 70,
-    // height: 70,
     borderRadius: 100,
     marginTop: 10,
-    backgroundColor: 'orange',
+    backgroundColor: '#ff9d42',
   },
+  buttonFunctional: {
+    width: 70,
+    borderRadius: 100,
+    marginTop: 10,
+    backgroundColor: '#292929',
+  }
 });
