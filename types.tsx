@@ -32,6 +32,7 @@ export type RootTabParamList = {
   News: undefined;
   Calculator: undefined;
   Profile: { userName: string, userAge: number, userGender: string };
+  Converter: undefined;
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<

@@ -19,6 +19,7 @@ import CalculatorScreen from '../screens/CalculatorScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 import ProfileScreen from '../screens/ProfileScreen';
+import ConverterScreen from '../screens/ConverterScreen';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -93,6 +94,28 @@ function BottomTabNavigator({ navigation, route }: RootTabScreenProps<'Profile'>
         options={{
           title: 'Calculator',
           tabBarIcon: ({ color }) => <TabBarIcon name="calculator" color={color} />,
+          headerRight: () => (
+            <Pressable
+              onPress={() => navigation.navigate('Profile', {userName, userAge, userGender})}
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}>
+              <FontAwesome
+                name="user-circle"
+                size={25}
+                color={Colors[colorScheme].text}
+                style={{ marginRight: 15 }}
+              />
+            </Pressable>
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="Converter"
+        component={ConverterScreen}
+        options={{
+          title: 'Converter',
+          tabBarIcon: ({ color }) => <TabBarIcon name="university" color={color} />,
           headerRight: () => (
             <Pressable
               onPress={() => navigation.navigate('Profile', {userName, userAge, userGender})}

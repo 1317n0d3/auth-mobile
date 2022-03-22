@@ -17,6 +17,7 @@ const linking: LinkingOptions<RootStackParamList> = {
         screens: {
           News: 'news',
           Calculator: 'calculator',
+          Converter: 'converter',
           },
       },
       Welcome: 'login',
