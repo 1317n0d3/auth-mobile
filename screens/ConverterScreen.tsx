@@ -56,8 +56,12 @@ export default function ConverterScreen() {
     [metric, setMetric] = useState<string>(metrics.metre),
     [value, setValue] = useState<string>('');
 
+  useEffect(() => {
+    setValue(value.replace(',', '.'))
+  }, [value])
+
   function calculate(): metricsObject {
-    let res = {
+    let res: metricsObject = {
       metre: 0,
       kilometer: 0,
       centimeter: 0,
@@ -116,6 +120,13 @@ export default function ConverterScreen() {
         res.inch = +value
         break;
     }
+
+    res.centimeter = +res.centimeter.toFixed(2)
+    res.metre = +res.metre.toFixed(2)
+    res.kilometer = +res.kilometer.toFixed(2)
+    res.inch = +res.inch.toFixed(2)
+    res.mile = +res.mile.toFixed(2)
+    res.ft = +res.ft.toFixed(2)
 
     return res
   }
@@ -185,6 +196,7 @@ const styles = StyleSheet.create({
   metricsColumn: {
     width: '50%',
     backgroundColor: '#f5f5f5',
+    borderBottomWidth: 1
   },
   title: {
     fontSize: 18,
