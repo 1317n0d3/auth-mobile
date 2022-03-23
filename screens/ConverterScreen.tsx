@@ -49,80 +49,49 @@ export default function ConverterScreen() {
 
   return (
     <ScrollView style={styles.container}>
-      <Picker
-        selectedValue={selectedLanguage}
-        onValueChange={(itemValue, itemIndex) =>
-          setSelectedLanguage(itemValue)
-        }>
-        <Picker.Item label="Русский" value="ru" />
-        <Picker.Item label="English" value="en" />
-      </Picker>
-
       <TextInput style={ styles.input } placeholder={lang[selectedLanguage].input}
         value={value}
         keyboardType="numeric"
         onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => 
           setValue(text.nativeEvent.text)} />
 
-      <View style={styles.metricsContainer}>
+      <View style={styles.rowContainer}>
         <View style={styles.metricsColumn}>
-          <RadioButton.Item
-            label={lang[selectedLanguage].metre}
-            color='#194bff'
-            value={metrics.metre}
-            status={ metric === metrics.metre ? 'checked' : 'unchecked' }
-            onPress={() => {
-              setMetric(metrics.metre)
-            }}
-          />
-          <RadioButton.Item
-            label={lang[selectedLanguage].kilometer}
-            color='#194bff'
-            value={metrics.kilometer}
-            status={ metric === metrics.kilometer ? 'checked' : 'unchecked' }
-            onPress={() => {
-              setMetric(metrics.kilometer)
-            }}
-          />
-          <RadioButton.Item
-            label={lang[selectedLanguage].centimeter}
-            color='#194bff'
-            value={metrics.centimeter}
-            status={ metric === metrics.centimeter ? 'checked' : 'unchecked' }
-            onPress={() => {
-              setMetric(metrics.centimeter)
-            }}
-          />
+          <Text style={styles.title}>{lang[selectedLanguage].metre}</Text>
+          <Text style={styles.title}>{lang[selectedLanguage].kilometer}</Text>
+          <Text style={styles.title}>{lang[selectedLanguage].centimeter}</Text>
         </View>
         <View style={styles.metricsColumn}>
-          <RadioButton.Item
-            label={lang[selectedLanguage].ft}
-            color='#194bff'
-            value={metrics.ft}
-            status={ metric === metrics.ft ? 'checked' : 'unchecked' }
-            onPress={() => {
-              setMetric(metrics.ft)
-            }}
-          />
-          <RadioButton.Item
-            label={lang[selectedLanguage].mile}
-            color='#194bff'
-            value={metrics.mile}
-            status={ metric === metrics.mile ? 'checked' : 'unchecked' }
-            onPress={() => {
-              setMetric(metrics.mile)
-            }}
-          />
-          <RadioButton.Item
-            label={lang[selectedLanguage].inch}
-            color='#194bff'
-            value={metrics.inch}
-            status={ metric === metrics.inch ? 'checked' : 'unchecked' }
-            onPress={() => {
-              setMetric(metrics.inch)
-            }}
-          />
+          <Text style={styles.title}>{lang[selectedLanguage].ft}</Text>
+          <Text style={styles.title}>{lang[selectedLanguage].mile}</Text>
+          <Text style={styles.title}>{lang[selectedLanguage].inch}</Text>
         </View>
+      </View>
+
+      <View style={styles.rowContainer}>
+        <Picker
+          style={{width: '50%'}}
+          selectedValue={selectedLanguage}
+          onValueChange={(itemValue, itemIndex) =>
+            setSelectedLanguage(itemValue)
+          }>
+          <Picker.Item label="Русский" value="ru" />
+          <Picker.Item label="English" value="en" />
+        </Picker>
+
+        <Picker
+          style={{width: '50%'}}
+          selectedValue={metric}
+          onValueChange={(itemValue, itemIndex) =>
+            setMetric(itemValue)
+          }>
+          <Picker.Item label={lang[selectedLanguage].metre} value={metrics.metre} />
+          <Picker.Item label={lang[selectedLanguage].kilometer} value={metrics.kilometer} />
+          <Picker.Item label={lang[selectedLanguage].centimeter} value={metrics.centimeter} />
+          <Picker.Item label={lang[selectedLanguage].ft} value={metrics.ft} />
+          <Picker.Item label={lang[selectedLanguage].mile} value={metrics.mile} />
+          <Picker.Item label={lang[selectedLanguage].inch} value={metrics.inch} />
+        </Picker>
       </View>
     </ScrollView>
   );
@@ -132,11 +101,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    backgroundColor: '#f5f5f5',
   },
-  metricsContainer: {
+  rowContainer: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    backgroundColor: '#f5f5f5',
   },
   metricsColumn: {
     width: '50%',
@@ -144,7 +115,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    fontWeight: '500',
+    fontWeight: '300',
     padding: 10,
   },
   separator: {
