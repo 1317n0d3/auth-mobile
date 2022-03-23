@@ -13,6 +13,15 @@ export default function ConverterScreen() {
     [key: string]: langTranslate
   }
 
+  interface metricsObject {
+    metre: number,
+    kilometer: number,
+    centimeter: number,
+    ft: number,
+    mile: number,
+    inch: number,
+  }
+
   const metrics = {
     metre: 'metre',
     kilometer: 'kilometer',
@@ -47,6 +56,70 @@ export default function ConverterScreen() {
     [metric, setMetric] = useState<string>(metrics.metre),
     [value, setValue] = useState<string>('');
 
+  function calculate(): metricsObject {
+    let res = {
+      metre: 0,
+      kilometer: 0,
+      centimeter: 0,
+      ft: 0,
+      mile: 0,
+      inch: 0,
+    }
+
+    switch(metric) {
+      case metrics.metre:
+        res.metre = +value
+        res.kilometer = +value / 1000
+        res.centimeter = +value * 100
+        res.ft = +value * 3.281
+        res.mile = +value / 1609
+        res.inch = +value * 39.37
+        break;
+      case metrics.kilometer:
+        res.metre = +value * 1000
+        res.kilometer = +value
+        res.centimeter = +value * 100000
+        res.ft = +value * 3281
+        res.mile = +value / 1.609
+        res.inch = +value * 39370
+        break;
+      case metrics.centimeter:
+        res.metre = +value / 100
+        res.kilometer = +value / 100000
+        res.centimeter = +value
+        res.ft = +value / 30.48
+        res.mile = +value / 160934
+        res.inch = +value / 2.54
+        break;
+      case metrics.ft:
+        res.metre = +value / 3.281
+        res.kilometer = +value / 3281
+        res.centimeter = +value * 30.48
+        res.ft = +value
+        res.mile = +value / 5280
+        res.inch = +value * 12
+        break;
+      case metrics.mile:
+        res.metre = +value * 1609
+        res.kilometer = +value * 1.609
+        res.centimeter = +value * 160934
+        res.ft = +value * 5280
+        res.mile = +value
+        res.inch = +value * 63360
+        break;
+      case metrics.inch:
+        res.metre = +value / 39.37
+        res.kilometer = +value / 39370
+        res.centimeter = +value * 2.54
+        res.ft = +value / 12
+        res.mile = +value / 63360
+        res.inch = +value
+        break;
+    }
+
+    return res
+  }
+
   return (
     <ScrollView style={styles.container}>
       <TextInput style={ styles.input } placeholder={lang[selectedLanguage].input}
@@ -57,14 +130,14 @@ export default function ConverterScreen() {
 
       <View style={styles.rowContainer}>
         <View style={styles.metricsColumn}>
-          <Text style={styles.title}>{lang[selectedLanguage].metre}</Text>
-          <Text style={styles.title}>{lang[selectedLanguage].kilometer}</Text>
-          <Text style={styles.title}>{lang[selectedLanguage].centimeter}</Text>
+          <Text style={styles.title}>{lang[selectedLanguage].metre + ' : ' + calculate().metre}</Text>
+          <Text style={styles.title}>{lang[selectedLanguage].kilometer + ' : ' + calculate().kilometer}</Text>
+          <Text style={styles.title}>{lang[selectedLanguage].centimeter + ' : ' + calculate().centimeter}</Text>
         </View>
         <View style={styles.metricsColumn}>
-          <Text style={styles.title}>{lang[selectedLanguage].ft}</Text>
-          <Text style={styles.title}>{lang[selectedLanguage].mile}</Text>
-          <Text style={styles.title}>{lang[selectedLanguage].inch}</Text>
+          <Text style={styles.title}>{lang[selectedLanguage].ft + ' : ' + calculate().ft}</Text>
+          <Text style={styles.title}>{lang[selectedLanguage].mile + ' : ' + calculate().mile}</Text>
+          <Text style={styles.title}>{lang[selectedLanguage].inch + ' : ' + calculate().inch}</Text>
         </View>
       </View>
 
