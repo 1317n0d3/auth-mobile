@@ -53,7 +53,7 @@ export default function ConverterScreen() {
   }
 
   const [selectedLanguage, setSelectedLanguage] = useState<string>('ru'),
-    [metric, setMetric] = useState<string>(metrics.metre),
+    [metric, setMetric] = useState<string>(metrics.centimeter),
     [value, setValue] = useState<string>('');
 
   useEffect(() => {
