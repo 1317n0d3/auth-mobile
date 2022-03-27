@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import { NativeSyntheticEvent, Platform, ScrollView, StyleSheet, TextInput, TextInputChangeEventData, TouchableOpacity } from 'react-native';
 import { Button, RadioButton } from 'react-native-paper';
 import * as SQLite from 'expo-sqlite';
@@ -34,7 +34,7 @@ interface IItemsMap {
 }
 
 function Items({ done: doneHeading, onPressItem }: IItems) {
-  const [items, setItems] = useState<Array<string> | null>(null);
+  const [items, setItems] = useState<Array<JSX.Element> | null>(null);
 
   useEffect(() => {
     db.transaction((tx) => {
@@ -55,7 +55,7 @@ function Items({ done: doneHeading, onPressItem }: IItems) {
   return (
     <View style={styles.sectionContainer}>
       <Text style={styles.sectionHeading}>{heading}</Text>
-      {items.map(({id, done, value}: IItemsMap) => (
+      {items.map(({id, done, value}) => (
         <TouchableOpacity
           key={id}
           onPress={() => onPressItem && onPressItem(id)}
@@ -71,6 +71,11 @@ function Items({ done: doneHeading, onPressItem }: IItems) {
       ))}
     </View>
   );
+}
+
+function useForceUpdate() {
+  const [value, setValue] = useState(0);
+  return [() => setValue(value + 1), value];
 }
 
 export default function NotesScreen() {
@@ -98,7 +103,7 @@ export default function NotesScreen() {
           console.log(JSON.stringify(rows))
         );
       },
-      null,
+      undefined,
       forceUpdate
     );
   };
@@ -126,7 +131,7 @@ export default function NotesScreen() {
               }}
               placeholder="what do you need to do?"
               style={styles.input}
-              value={text}
+              value={text!}
             />
           </View>
           <ScrollView style={styles.listArea}>
@@ -140,7 +145,7 @@ export default function NotesScreen() {
                       id,
                     ]);
                   },
-                  null,
+                  undefined,
                   forceUpdate
                 )
               }
@@ -153,7 +158,7 @@ export default function NotesScreen() {
                   (tx) => {
                     tx.executeSql(`delete from items where id = ?;`, [id]);
                   },
-                  null,
+                  undefined,
                   forceUpdate
                 )
               }
@@ -163,11 +168,6 @@ export default function NotesScreen() {
       )}
     </View>
   );
-}
-
-function useForceUpdate() {
-  const [value, setValue] = useState(0);
-  return [() => setValue(value + 1), value];
 }
 
 const styles = StyleSheet.create({
