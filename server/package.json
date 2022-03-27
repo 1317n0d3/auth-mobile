@@ -4,11 +4,13 @@
   "description": "api for expo app",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "klltx",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.19.2",
     "express": "^4.17.3",
     "http": "^0.0.1-security",
     "sqlite3": "^5.0.2"
