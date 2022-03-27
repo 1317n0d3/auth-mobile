@@ -2,30 +2,12 @@ import { useEffect, useState } from 'react';
 import { NativeSyntheticEvent, ScrollView, StyleSheet, TextInput, TextInputChangeEventData } from 'react-native';
 import { Button, RadioButton } from 'react-native-paper';
 
-import { Text, View } from '../components/Themed';
+import { Text, View } from '../Themed';
 
-export default function NotesScreen() {
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    fetch('http://localhost:3000/api/notes')
-    .then(response => response.json())
-    .then(json => { if(isMounted) setData(json.data)})
-    
-    return () => { isMounted = false }
-  }, [])
-
+export default function Notes() {
   return (
     <View style={styles.container}>
-      <Button
-        onPress={() => { 
-          console.log('Response: ', data);
-        }}
-        style={styles.button}>
-        <Text style={{ fontSize: 20, color: '#fff' }}>Войти</Text>
-      </Button>
+      <Text></Text>
     </View>
   );
 }

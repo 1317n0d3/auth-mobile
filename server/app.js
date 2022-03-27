@@ -84,6 +84,6 @@ app.use(function (req, res) {
   res.status(404);
 });
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
