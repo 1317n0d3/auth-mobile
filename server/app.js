@@ -13,9 +13,6 @@ app.use(bodyParser.json());
 app.post("/api/notes/", (req, res, next) => {
   const errors = [];
 
-  if (!req.body.tags) {
-    errors.push("No tags specified");
-  }
   if (!req.body.note) {
     errors.push("No note specified");
   }

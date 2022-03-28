@@ -3,19 +3,38 @@ import { NativeSyntheticEvent, ScrollView, StyleSheet, TextInput, TextInputChang
 import { Button, RadioButton } from 'react-native-paper';
 
 import { Text, View } from '../components/Themed';
+import { urlGetNotes } from '../constants/ServerConfig';
+
+interface IDataItem {
+  id: number,
+  note: string,
+  tags: string,
+  created_at: string,
+}
+
+interface IDataItems extends Array<IDataItem>{}
 
 export default function NotesScreen() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<IDataItems>([]);
 
   useEffect(() => {
     let isMounted = true;
 
-    fetch('http://localhost:3000/api/notes')
+    fetch(urlGetNotes)
     .then(response => response.json())
     .then(json => { if(isMounted) setData(json.data)})
     
     return () => { isMounted = false }
   }, [])
+
+  function parseData() {
+    return data.map((value) => <View key={`note-${value.id}`}>
+        <Text>{value.note}</Text>
+        <Text>{value.created_at}</Text>
+        <Text>{value.tags}</Text>
+      </View>
+    )
+  }
 
   return (
     <View style={styles.container}>
@@ -26,6 +45,9 @@ export default function NotesScreen() {
         style={styles.button}>
         <Text style={{ fontSize: 20, color: '#fff' }}>Войти</Text>
       </Button>
+
+      { parseData() }
+
     </View>
   );
 }
