@@ -16,8 +16,8 @@ interface IDataItems extends Array<IDataItem>{}
 
 export default function NotesScreen() {
   const [data, setData] = useState<IDataItems>([]),
-    [note, setNote] = useState<string>(''),
-    [tags, setTags] = useState<string | null>(null),
+    [noteInput, setNoteInput] = useState<string>(''),
+    [tagsInput, setTagsInput] = useState<string | null>(null),
     [noteId, setNoteId] = useState<number>(0);
 
   useEffect(() => {
@@ -35,14 +35,13 @@ export default function NotesScreen() {
       style={styles.container}
       key={`note-${value.id}`}
       onPress={(e) => {
-        setNote(value.note)
-        setTags(value.tags)
+        setNoteInput(value.note)
+        setTagsInput(value.tags)
         setNoteId(value.id)
       }}>
         <Text>{value.note}</Text>
         <Text>{value.created_at}</Text>
         <Text>{value.tags}</Text>
-        <Text>{value.id}</Text>
         <Button
           onPress={ () => deleteNote(value.id) }
           style={styles.button}>
@@ -66,46 +65,27 @@ export default function NotesScreen() {
     const requestOptions = {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ note, tags })
+      body: JSON.stringify({ note: noteInput, tags: tagsInput })
     }
     
 
     fetch(urlGetNotes + id, requestOptions)
       .then(response => response.json())
 
-    setNote('')
-    setTags(null)
-  }
-
-  function postNote() {
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ note,  tags })
-    }
-
-    setNote('')
-    setTags(null)
-
-    fetch(urlGetNotes, requestOptions)
-      .then(response => response.json())
+    setNoteInput('')
+    setTagsInput(null)
   }
 
   return (
     <ScrollView style={styles.container}>
       <TextInput style={ styles.input } placeholder="Поле для заметки"
-        value={note}
+        value={noteInput}
         onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => 
-          setNote(text.nativeEvent.text)} />
+          setNoteInput(text.nativeEvent.text)} />
       <TextInput style={ styles.input } placeholder="Поле для тегов"
-        value={tags ? tags : ''}
+        value={tagsInput ? tagsInput : ''}
         onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => 
-          setTags(text.nativeEvent.text)} />
-      <Button
-        onPress={ postNote }
-        style={styles.button}>
-        <Text style={{ fontSize: 20, color: '#fff' }}>Добавить заметку</Text>
-      </Button>
+          setTagsInput(text.nativeEvent.text)} />
       
       <Button
         onPress={ () => updateNote(noteId) }

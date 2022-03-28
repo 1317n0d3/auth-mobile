@@ -22,6 +22,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import ConverterScreen from '../screens/ConverterScreen';
 import NotesScreen from '../screens/NotesScreen';
 import GraphicsEditorScreen from '../screens/GraphicsEditorScreen';
+import NewNoteScreen from '../screens/NewNoteScreen';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -45,8 +46,9 @@ function RootNavigator() {
       <Stack.Screen name="Welcome" component={LoginScreen} />
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-      <Stack.Group screenOptions={{ presentation: 'modal' }}>
+      <Stack.Group screenOptions={{ presentation: 'card' }}>
         <Stack.Screen name="Profile" component={ProfileScreen} />
+        <Stack.Screen name="NewNote" component={NewNoteScreen} options={{ title: 'Create new note' }} />
       </Stack.Group>
     </Stack.Navigator>
   );
@@ -151,6 +153,20 @@ function BottomTabNavigator({ navigation, route }: RootTabScreenProps<'Profile'>
                 size={25}
                 color={Colors[colorScheme].text}
                 style={{ marginRight: 15 }}
+              />
+            </Pressable>
+          ),
+          headerLeft: () => (
+            <Pressable
+              onPress={() => navigation.navigate('NewNote')}
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}>
+              <FontAwesome
+                name="plus-square"
+                size={25}
+                color={Colors[colorScheme].text}
+                style={{ marginLeft: 15 }}
               />
             </Pressable>
           ),
