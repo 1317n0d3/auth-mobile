@@ -10,6 +10,32 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+app.patch("/api/notes/:id", (req, res, next) => {
+  const data = {
+    note: req.body.note,
+    tags: req.body.tags,
+  };
+
+  db.run(
+    `UPDATE notes set 
+      note = COALESCE(?,note), 
+      tags = COALESCE(?,tags)
+      WHERE id = ?`,
+    [data.note, data.tags, req.params.id],
+    function (err, result) {
+      if (err) {
+        res.status(400).json({ error: res.message });
+        return;
+      }
+      res.json({
+        message: "success",
+        data: data,
+        changes: this.changes,
+      });
+    }
+  );
+});
+
 app.post("/api/notes/", (req, res, next) => {
   const errors = [];
 
