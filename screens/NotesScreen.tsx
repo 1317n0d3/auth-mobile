@@ -16,7 +16,8 @@ interface IDataItem {
 interface IDataItems extends Array<IDataItem>{}
 
 export default function NotesScreen({ navigation }: RootTabScreenProps<'Notes'>) {
-  const [data, setData] = useState<IDataItems>([]);
+  const [data, setData] = useState<IDataItems>([]),
+    notesMaxLength = 40;
 
   useEffect(() => {
     let isMounted = true;
@@ -29,20 +30,37 @@ export default function NotesScreen({ navigation }: RootTabScreenProps<'Notes'>)
   }, [data])
 
   function parseData() {
-    return data.map((value) => <TouchableOpacity
-      style={styles.noteContainer}
-      key={`note-${value.id}`}
-      onPress={() => {
-        navigation.navigate('EditNote', {
-          noteInput: value.note,
-          tagsInput: value.tags,
-          noteId: value.id })
-      }}>
-        <Text>{value.note}</Text>
-        <Text>{value.created_at}</Text>
-        <Text>{value.tags}</Text>
-    </TouchableOpacity>
-    ).reverse()
+    return data.map((value) => {
+      return (
+        <TouchableOpacity
+          style={styles.noteContainer}
+          key={`note-${value.id}`}
+          onPress={() => {
+            navigation.navigate('EditNote', {
+              noteInput: value.note,
+              tagsInput: value.tags,
+              noteId: value.id,
+            })
+          }}>
+
+          {
+            value.note.length > notesMaxLength ?
+            <Text>{value.note.slice(0, notesMaxLength)}...</Text> :
+            <Text>{value.note}</Text>
+          }
+
+          <View style={ styles.rowContainer } >
+            <Text style={{ fontWeight: '500' }} >{value.created_at.slice(5, 16)}</Text>
+
+            {
+              value.tags ?
+              <Text style={{ fontStyle: 'italic' }} >Tags: {value.tags}</Text> :
+              null
+            }
+
+          </View>
+      </TouchableOpacity>
+    )}).reverse()
   }
 
   return (
@@ -64,6 +82,11 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     marginBottom: 10,
+  },
+  rowContainer: {
+    marginTop: 7,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   title: {
     fontSize: 18,
