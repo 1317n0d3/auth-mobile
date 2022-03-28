@@ -15,8 +15,9 @@ interface IDataItem {
 
 interface IDataItems extends Array<IDataItem>{}
 
-export default function NotesScreen({ navigation }: RootTabScreenProps<'Notes'>) {
+export default function NotesScreen({ navigation, route }: RootTabScreenProps<'Notes'>) {
   const [data, setData] = useState<IDataItems>([]),
+    tags: Array<string> = [],
     notesMaxLength = 40;
 
   useEffect(() => {
@@ -26,10 +27,26 @@ export default function NotesScreen({ navigation }: RootTabScreenProps<'Notes'>)
     .then(response => response.json())
     .then(json => { if(isMounted) setData(json.data)})
     
+    data.forEach((value) => {
+      if(value.tags) value.tags.trim().split(' ').forEach((tag) => tags.includes(tag) ? tags.push(tag) : null)
+    })
+    
     return () => { isMounted = false }
-  }, [data])
+  }, [])
 
-  function parseData() {
+  function createTags() {
+    console.log('0');
+
+    return tags.map((tag) => (
+      <TouchableOpacity>
+        <Text>{tag}</Text>
+      </TouchableOpacity>
+    ))
+  }
+
+  function createNotes() {
+    console.log('2');
+    
     return data.map((value) => {
       return (
         <TouchableOpacity
@@ -59,14 +76,17 @@ export default function NotesScreen({ navigation }: RootTabScreenProps<'Notes'>)
             }
 
           </View>
-      </TouchableOpacity>
+
+        </TouchableOpacity>
     )}).reverse()
   }
 
   return (
     <ScrollView style={styles.container}>
 
-      { parseData() }
+      { createTags() }
+
+      { createNotes() }
 
     </ScrollView>
   );
