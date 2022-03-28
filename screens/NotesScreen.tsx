@@ -16,10 +16,7 @@ interface IDataItem {
 interface IDataItems extends Array<IDataItem>{}
 
 export default function NotesScreen({ navigation }: RootTabScreenProps<'Notes'>) {
-  const [data, setData] = useState<IDataItems>([]),
-    [noteInput, setNoteInput] = useState<string>(''),
-    [tagsInput, setTagsInput] = useState<string | null>(null),
-    [noteId, setNoteId] = useState<number>(0);
+  const [data, setData] = useState<IDataItems>([]);
 
   useEffect(() => {
     let isMounted = true;
@@ -33,67 +30,23 @@ export default function NotesScreen({ navigation }: RootTabScreenProps<'Notes'>)
 
   function parseData() {
     return data.map((value) => <TouchableOpacity
-      style={styles.container}
+      style={styles.noteContainer}
       key={`note-${value.id}`}
-      onPress={(e) => {
-        setNoteInput(value.note)
-        setTagsInput(value.tags)
-        setNoteId(value.id)
-        navigation.navigate('NewNote')
+      onPress={() => {
+        navigation.navigate('EditNote', {
+          noteInput: value.note,
+          tagsInput: value.tags,
+          noteId: value.id })
       }}>
         <Text>{value.note}</Text>
         <Text>{value.created_at}</Text>
         <Text>{value.tags}</Text>
-        <Button
-          onPress={ () => deleteNote(value.id) }
-          style={styles.button}>
-          <Text style={{ fontSize: 20, color: '#fff' }}>удалить</Text>
-        </Button>
     </TouchableOpacity>
     ).reverse()
   }
 
-  function deleteNote(id: number) {
-    const requestOptions = {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-    }
-    
-    fetch(urlGetNotes + id, requestOptions)
-      .then(response => response.json())
-  }
-
-  function updateNote(id: number) {
-    const requestOptions = {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ note: noteInput, tags: tagsInput })
-    }
-    
-
-    fetch(urlGetNotes + id, requestOptions)
-      .then(response => response.json())
-
-    setNoteInput('')
-    setTagsInput(null)
-  }
-
   return (
     <ScrollView style={styles.container}>
-      <TextInput style={ styles.input } placeholder="Поле для заметки"
-        value={noteInput}
-        onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => 
-          setNoteInput(text.nativeEvent.text)} />
-      <TextInput style={ styles.input } placeholder="Поле для тегов"
-        value={tagsInput ? tagsInput : ''}
-        onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => 
-          setTagsInput(text.nativeEvent.text)} />
-      
-      <Button
-        onPress={ () => updateNote(noteId) }
-        style={styles.button}>
-        <Text style={{ fontSize: 20, color: '#fff' }}>Изменить заметку</Text>
-      </Button>
 
       { parseData() }
 
@@ -105,6 +58,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+  },
+  noteContainer: {
+    backgroundColor: '#fff',
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
   },
   title: {
     fontSize: 18,

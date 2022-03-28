@@ -23,6 +23,7 @@ import ConverterScreen from '../screens/ConverterScreen';
 import NotesScreen from '../screens/NotesScreen';
 import GraphicsEditorScreen from '../screens/GraphicsEditorScreen';
 import NewNoteScreen from '../screens/NewNoteScreen';
+import EditNoteScreen from '../screens/EditNoteScreen';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -49,6 +50,7 @@ function RootNavigator() {
       <Stack.Group screenOptions={{ presentation: 'card' }}>
         <Stack.Screen name="Profile" component={ProfileScreen} />
         <Stack.Screen name="NewNote" component={NewNoteScreen} options={{ title: 'Create new note' }} />
+        <Stack.Screen name="EditNote" component={EditNoteScreen} options={{ title: 'Edit note' }} />
       </Stack.Group>
     </Stack.Navigator>
   );
