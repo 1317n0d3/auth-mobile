@@ -10,7 +10,7 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.patch("/api/notes/:id", (req, res, next) => {
+app.put("/api/notes/:id", (req, res, next) => {
   const data = {
     note: req.body.note,
     tags: req.body.tags,
@@ -19,7 +19,8 @@ app.patch("/api/notes/:id", (req, res, next) => {
   db.run(
     `UPDATE notes set 
       note = COALESCE(?,note), 
-      tags = COALESCE(?,tags)
+      tags = COALESCE(?,tags),
+      created_at = CURRENT_TIMESTAMP
       WHERE id = ?`,
     [data.note, data.tags, req.params.id],
     function (err, result) {

@@ -53,12 +53,13 @@ export default function NotesScreen() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ note, tags })
     }
-
-    setNote('')
-    setTags(null)
+    
 
     fetch(urlGetNotes + id, requestOptions)
       .then(response => response.json())
+
+    setNote('')
+    setTags(null)
   }
 
   function postNote() {
