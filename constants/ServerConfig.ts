@@ -1,4 +1,4 @@
-const ipconfig = '0.0.0.0',
+const ipconfig = '',
   port = '3000',
   urlGetNotes = `http://${ipconfig}:${port}/api/notes/`
 

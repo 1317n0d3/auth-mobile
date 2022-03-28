@@ -15,7 +15,9 @@ interface IDataItem {
 interface IDataItems extends Array<IDataItem>{}
 
 export default function NotesScreen() {
-  const [data, setData] = useState<IDataItems>([]);
+  const [data, setData] = useState<IDataItems>([]),
+    [note, setNote] = useState<string>(''),
+    [tags, setTags] = useState<string>('');
 
   useEffect(() => {
     let isMounted = true;
@@ -25,30 +27,48 @@ export default function NotesScreen() {
     .then(json => { if(isMounted) setData(json.data)})
     
     return () => { isMounted = false }
-  }, [])
+  }, [data])
 
   function parseData() {
-    return data.map((value) => <View key={`note-${value.id}`}>
+    return data.map((value) => <View style={styles.container} key={`note-${value.id}`}>
         <Text>{value.note}</Text>
         <Text>{value.created_at}</Text>
         <Text>{value.tags}</Text>
       </View>
-    )
+    ).reverse()
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
+      <TextInput style={ styles.input } placeholder="Поле для заметки"
+        value={note}
+        onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => 
+          setNote(text.nativeEvent.text)} />
+      <TextInput style={ styles.input } placeholder="Поле для тегов"
+        value={tags}
+        onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => 
+          setTags(text.nativeEvent.text)} />
       <Button
         onPress={() => { 
-          console.log('Response: ', data);
+          const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ note,  tags })
+          }
+
+          setNote('')
+          setTags('')
+
+          fetch(urlGetNotes, requestOptions)
+            .then(response => response.json())
         }}
         style={styles.button}>
-        <Text style={{ fontSize: 20, color: '#fff' }}>Войти</Text>
+        <Text style={{ fontSize: 20, color: '#fff' }}>Добавить заметку</Text>
       </Button>
 
       { parseData() }
 
-    </View>
+    </ScrollView>
   );
 }
 
