@@ -43,8 +43,23 @@ export default function NotesScreen() {
         <Text>{value.created_at}</Text>
         <Text>{value.tags}</Text>
         <Text>{value.id}</Text>
+        <Button
+          onPress={ () => deleteNote(value.id) }
+          style={styles.button}>
+          <Text style={{ fontSize: 20, color: '#fff' }}>удалить</Text>
+        </Button>
     </TouchableOpacity>
     ).reverse()
+  }
+
+  function deleteNote(id: number) {
+    const requestOptions = {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+    }
+    
+    fetch(urlGetNotes + id, requestOptions)
+      .then(response => response.json())
   }
 
   function updateNote(id: number) {
