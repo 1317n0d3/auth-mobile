@@ -5,9 +5,9 @@ import { Button } from 'react-native-paper';
 
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
-import { RootTabScreenProps } from '../types';
+import { RootStackScreenProps } from '../types';
 
-export default function ProfileScreen({navigation, route}: RootTabScreenProps<'Profile'>) {
+export default function ProfileScreen({navigation, route}: RootStackScreenProps<'Profile'>) {
   const { userName, userAge, userGender } = route.params;
 
   const [isLightTheme, setIsLightTheme] = useState<boolean>(true),

@@ -6,9 +6,9 @@ import { Button } from 'react-native-paper';
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { urlGetNotes } from '../constants/ServerConfig';
-import { RootTabScreenProps } from '../types';
+import { RootStackScreenProps } from '../types';
 
-export default function NewNoteScreen() {
+export default function NewNoteScreen({ navigation }: RootStackScreenProps<'NewNote'>) {
   const [noteInput, setNoteInput] = useState<string>(''),
     [tagsInput, setTagsInput] = useState<string | null>(null);
 
@@ -39,7 +39,10 @@ export default function NewNoteScreen() {
         onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => 
           setNoteInput(text.nativeEvent.text)} />
       <Button
-        onPress={ postNote }
+        onPress={ () => {
+          postNote()
+          navigation.navigate('Root', { screen: 'Notes' })
+        }}
         style={styles.button}>
         <Text style={{ fontSize: 20, color: '#fff' }}>Добавить заметку</Text>
       </Button>

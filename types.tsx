@@ -32,7 +32,6 @@ export type RootTabParamList = {
   Welcome: undefined;
   News: undefined;
   Calculator: undefined;
-  Profile: { userName: string, userAge: number, userGender: string };
   Converter: undefined;
   Notes: undefined;
   GraphicsEditor: undefined;

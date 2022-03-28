@@ -16,7 +16,7 @@ import LoginScreen from '../screens/LoginScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import NewsScreen from '../screens/NewsScreen';
 import CalculatorScreen from '../screens/CalculatorScreen';
-import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
+import { RootStackParamList, RootStackScreenProps, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 import ProfileScreen from '../screens/ProfileScreen';
 import ConverterScreen from '../screens/ConverterScreen';
@@ -60,7 +60,7 @@ function RootNavigator() {
  */
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
-function BottomTabNavigator({ navigation, route }: RootTabScreenProps<'Profile'>) {
+function BottomTabNavigator({ navigation, route }: RootStackScreenProps<'Profile'>) {
   const colorScheme = useColorScheme(),
     { userName, userAge, userGender } = route.params;
 

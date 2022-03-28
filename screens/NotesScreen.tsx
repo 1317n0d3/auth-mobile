@@ -4,6 +4,7 @@ import { Button, RadioButton } from 'react-native-paper';
 
 import { Text, View } from '../components/Themed';
 import { urlGetNotes } from '../constants/ServerConfig';
+import { RootTabScreenProps } from '../types';
 
 interface IDataItem {
   id: number,
@@ -14,7 +15,7 @@ interface IDataItem {
 
 interface IDataItems extends Array<IDataItem>{}
 
-export default function NotesScreen() {
+export default function NotesScreen({ navigation }: RootTabScreenProps<'Notes'>) {
   const [data, setData] = useState<IDataItems>([]),
     [noteInput, setNoteInput] = useState<string>(''),
     [tagsInput, setTagsInput] = useState<string | null>(null),
@@ -38,6 +39,7 @@ export default function NotesScreen() {
         setNoteInput(value.note)
         setTagsInput(value.tags)
         setNoteId(value.id)
+        navigation.navigate('NewNote')
       }}>
         <Text>{value.note}</Text>
         <Text>{value.created_at}</Text>
