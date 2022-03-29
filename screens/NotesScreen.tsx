@@ -26,27 +26,35 @@ export default function NotesScreen({ navigation, route }: RootTabScreenProps<'N
     fetch(urlGetNotes)
     .then(response => response.json())
     .then(json => { if(isMounted) setData(json.data)})
-    
-    data.forEach((value) => {
-      if(value.tags) value.tags.trim().split(' ').forEach((tag) => tags.includes(tag) ? tags.push(tag) : null)
-    })
+    .then(() => addTags())
+
+    console.log(data)
     
     return () => { isMounted = false }
   }, [])
 
-  function createTags() {
-    console.log('0');
+  function addTags() {
+    data.forEach((value) => {
+      if(value.tags) value.tags
+        .trim()
+        .split(' ')
+        .forEach((tag) => tags.includes(tag.trim()) ?
+          null :
+          tags.push(tag.trim()))
+    })
+  }
 
-    return tags.map((tag) => (
-      <TouchableOpacity>
-        <Text>{tag}</Text>
+  function createTags() {
+    addTags();
+
+    return tags.map((tag, i) => (
+      <TouchableOpacity style={ styles.tagContainer } key={`tag-${i}`}>
+        <Text>#{tag}</Text>
       </TouchableOpacity>
     ))
   }
 
   function createNotes() {
-    console.log('2');
-    
     return data.map((value) => {
       return (
         <TouchableOpacity
@@ -84,7 +92,9 @@ export default function NotesScreen({ navigation, route }: RootTabScreenProps<'N
   return (
     <ScrollView style={styles.container}>
 
-      { createTags() }
+      <ScrollView horizontal={ true } style={ styles.tagsContainer }>
+        { createTags() }
+      </ScrollView>
 
       { createNotes() }
 
@@ -107,6 +117,16 @@ const styles = StyleSheet.create({
     marginTop: 7,
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  tagsContainer: {
+    flexDirection: 'row',
+    marginBottom: 12,
+  },
+  tagContainer: {
+    margin: 7,
+    padding: 11,
+    backgroundColor: '#e8e8e8',
+    borderRadius: 16,
   },
   title: {
     fontSize: 18,
