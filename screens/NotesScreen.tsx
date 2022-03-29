@@ -1,3 +1,4 @@
+import { useIsFocused } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import { NativeSyntheticEvent, ScrollView, StyleSheet, TextInput, TextInputChangeEventData, TouchableOpacity } from 'react-native';
 import { Button, RadioButton } from 'react-native-paper';
@@ -20,18 +21,17 @@ export default function NotesScreen({ navigation, route }: RootTabScreenProps<'N
     tags: Array<string> = [],
     notesMaxLength = 40;
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
     let isMounted = true;
 
     fetch(urlGetNotes)
     .then(response => response.json())
     .then(json => { if(isMounted) setData(json.data)})
-    .then(() => addTags())
-
-    console.log(data)
     
     return () => { isMounted = false }
-  }, [])
+  }, [isFocused])
 
   function addTags() {
     data.forEach((value) => {
@@ -45,6 +45,7 @@ export default function NotesScreen({ navigation, route }: RootTabScreenProps<'N
   }
 
   function createTags() {
+    tags.length = 0;
     addTags();
 
     return tags.map((tag, i) => (
