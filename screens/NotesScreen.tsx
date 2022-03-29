@@ -18,19 +18,16 @@ interface IDataItems extends Array<IDataItem>{}
 
 export default function NotesScreen({ navigation, route }: RootTabScreenProps<'Notes'>) {
   const [data, setData] = useState<IDataItems>([]),
-    tags: Array<string> = [],
-    notesMaxLength = 40;
+    tags: string[] = [],
+    notesMaxLength: number = 40,
+    tagsMaxLength: number = 16;
 
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    let isMounted = true;
-
     fetch(urlGetNotes)
     .then(response => response.json())
-    .then(json => { if(isMounted) setData(json.data)})
-    
-    return () => { isMounted = false }
+    .then(json => {setData(json.data)})
   }, [isFocused])
 
   function addTags() {
@@ -80,7 +77,7 @@ export default function NotesScreen({ navigation, route }: RootTabScreenProps<'N
 
             {
               value.tags ?
-              <Text style={{ fontStyle: 'italic' }} >Tags: {value.tags}</Text> :
+              <Text style={{ fontStyle: 'italic' }} >Tags: {value.tags.slice(0, tagsMaxLength)}</Text> :
               null
             }
 

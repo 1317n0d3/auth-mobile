@@ -165,7 +165,7 @@ function BottomTabNavigator({ navigation, route }: RootStackScreenProps<'Profile
                 opacity: pressed ? 0.5 : 1,
               })}>
               <FontAwesome
-                name="plus-square"
+                name="pencil"
                 size={25}
                 color={Colors[colorScheme].text}
                 style={{ marginLeft: 15 }}
@@ -179,7 +179,7 @@ function BottomTabNavigator({ navigation, route }: RootStackScreenProps<'Profile
         component={GraphicsEditorScreen}
         options={{
           title: 'Board',
-          tabBarIcon: ({ color }) => <TabBarIcon name="pencil" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="pencil-square-o" color={color} />,
           headerRight: () => (
             <Pressable
               onPress={() => navigation.navigate('Profile', {userName, userAge, userGender})}
