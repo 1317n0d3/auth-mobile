@@ -18,6 +18,7 @@ interface IDataItems extends Array<IDataItem>{}
 
 export default function NotesScreen({ navigation, route }: RootTabScreenProps<'Notes'>) {
   const [data, setData] = useState<IDataItems>([]),
+    [activeTag, setActiveTag] = useState<string>('AllTags'),
     tags: string[] = [],
     notesMaxLength: number = 40,
     tagsMaxLength: number = 16;
@@ -46,7 +47,10 @@ export default function NotesScreen({ navigation, route }: RootTabScreenProps<'N
     addTags();
 
     return tags.map((tag, i) => (
-      <TouchableOpacity style={ styles.tagContainer } key={`tag-${i}`}>
+      <TouchableOpacity style={ activeTag === tag ? styles.activeTagContainer : styles.tagContainer } key={`tag-${i}`}
+        onPress={() => {
+          setActiveTag(tag);
+        }}>
         <Text>#{tag}</Text>
       </TouchableOpacity>
     ))
@@ -54,6 +58,9 @@ export default function NotesScreen({ navigation, route }: RootTabScreenProps<'N
 
   function createNotes() {
     return data.map((value) => {
+
+      if(value.tags && value.tags.includes(activeTag) || activeTag === 'AllTags')
+
       return (
         <TouchableOpacity
           style={styles.noteContainer}
@@ -92,7 +99,10 @@ export default function NotesScreen({ navigation, route }: RootTabScreenProps<'N
 
       <ScrollView horizontal={ true } style={ styles.tagsContainer }>
         
-        <TouchableOpacity style={ styles.tagContainer } key={`tag-all`}>
+        <TouchableOpacity style={ activeTag === 'AllTags' ? styles.activeTagContainer : styles.tagContainer } key={`tag-all`}
+          onPress={() => {
+            setActiveTag('AllTags')
+          }}>
           <Text>#All tags</Text>
         </TouchableOpacity>
         { createTags() }
@@ -123,6 +133,12 @@ const styles = StyleSheet.create({
   tagsContainer: {
     flexDirection: 'row',
     marginBottom: 12,
+  },
+  activeTagContainer: {
+    margin: 7,
+    padding: 11,
+    backgroundColor: '#ffa53d',
+    borderRadius: 16,
   },
   tagContainer: {
     margin: 7,
