@@ -91,6 +91,10 @@ export default function NotesScreen({ navigation, route }: RootTabScreenProps<'N
     <ScrollView style={styles.container}>
 
       <ScrollView horizontal={ true } style={ styles.tagsContainer }>
+        
+        <TouchableOpacity style={ styles.tagContainer } key={`tag-all`}>
+          <Text>#All tags</Text>
+        </TouchableOpacity>
         { createTags() }
       </ScrollView>
 

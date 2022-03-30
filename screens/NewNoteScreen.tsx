@@ -29,23 +29,25 @@ export default function NewNoteScreen({ navigation }: RootStackScreenProps<'NewN
 
   return (
     <ScrollView style={ styles.container }>
-      <TextInput style={ styles.input } placeholder="Теги"
-        value={tagsInput ? tagsInput : ''}
-        onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => 
-          setTagsInput(text.nativeEvent.text)} />
+      <View style={ styles.flexRow }>
+        <TextInput style={ styles.input } placeholder="Теги"
+          value={tagsInput ? tagsInput : ''}
+          onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => 
+            setTagsInput(text.nativeEvent.text)} />
+        <Button
+          onPress={ () => {
+            postNote()
+            navigation.navigate('Root', { screen: 'Notes' })
+          }}
+          style={styles.button}>
+          <Text style={{ fontSize: 16, color: '#fff' }}>✓</Text>
+        </Button>
+      </View>
       <TextInput style={ styles.inputNote } placeholder="Введите текст"
         multiline={ true }
         value={noteInput}
         onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => 
           setNoteInput(text.nativeEvent.text)} />
-      <Button
-        onPress={ () => {
-          postNote()
-          navigation.navigate('Root', { screen: 'Notes' })
-        }}
-        style={styles.button}>
-        <Text style={{ fontSize: 20, color: '#fff' }}>Добавить заметку</Text>
-      </Button>
     </ScrollView>
   );
 }
@@ -54,6 +56,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  flexRow: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   title: {
     fontSize: 20,
@@ -73,6 +80,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
+    width: '65%',
     margin: 12,
     padding: 10,
     backgroundColor: 'white',
@@ -84,8 +92,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   button: {
-    marginTop: 10,
-    backgroundColor: '#194bff',
+    margin: 14,
+    width: 20,
+    backgroundColor: '#00ad0c',
   },
   hidden: {
     display: 'none',
