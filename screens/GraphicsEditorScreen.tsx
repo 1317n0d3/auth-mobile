@@ -4,30 +4,70 @@ import { Button, RadioButton } from 'react-native-paper';
 
 import { Text, View } from '../components/Themed';
 
+interface IFigureData {
+  width: number,
+  height: number,
+  marginLeft: number,
+  marginTop: number,
+}
+
 export default function GraphicsEditorScreen() {
   const [locationStart, setLocationStart] = useState({ x: 0, y: 0 }),
     [locationEnd, setLocationEnd] = useState({ x: 0, y: 0 }),
-    figures = ([]);
+    [figuresData, setFiguresData] = useState<Array<IFigureData>>([]);
 
-  function createFigure() {
-    return (
-      <View style={{ backgroundColor: 'gray', width: locationEnd.x - locationStart.x, height: locationEnd.y - locationStart.y, marginLeft: locationStart.x, marginTop: locationStart.y }} ></View>
-    )
+  function writeFigureData(endX: number, endY: number): IFigureData {
+    return {
+      width: endX - locationStart.x > 0 ?
+        endX - locationStart.x : locationStart.x - endX,
+      height: endY - locationStart.y > 0 ?
+        endY - locationStart.y : locationStart.y - endY,
+      marginLeft: endX - locationStart.x > 0 ?
+        locationStart.x : endX,
+      marginTop: endY - locationStart.y > 0 ?
+        locationStart.y : endY,
+    }
+  }
+
+  function drawFigures(): Array<JSX.Element> {
+    return figuresData.map((value, i) => {
+      return (
+        <View
+          key={`figure-${i}`}
+          style={{
+            position: 'absolute',
+            backgroundColor: 'gray',
+            borderWidth: 1,
+            width: value.width,
+            height: value.height,
+            marginLeft: value.marginLeft,
+            marginTop: value.marginTop,
+          }}
+          onTouchMove={(e) => {
+            // console.log(e);
+          }} />
+      )})
   }
 
   return (
-    <View style={styles.container} 
-    onTouchStart={(e) => {
-      console.log(e.nativeEvent.locationX, e.nativeEvent.locationY);
-      setLocationStart({ x: e.nativeEvent.locationX, y: e.nativeEvent.locationY });      
-    }}
-    onTouchEnd={(e) => {
-      setLocationEnd({ x: e.nativeEvent.locationX, y: e.nativeEvent.locationY });  
-      figures.push(createFigure())    
-    }}>
+    <View style={ styles.container }>
+      <View style={styles.board} 
+      onTouchStart={(e) => {
+        setLocationStart({ x: e.nativeEvent.pageX, y: e.nativeEvent.pageY });      
+      }}
+      onTouchEnd={(e) => {
+        setLocationEnd({ x: e.nativeEvent.pageX, y: e.nativeEvent.pageY }); 
+        figuresData.push(writeFigureData(e.nativeEvent.pageX, e.nativeEvent.pageY))
+      }}>
 
-    { figures }
+      { drawFigures() }
 
+      </View>
+
+
+      <Button onPress={() => setFiguresData([])} style={ styles.button } >
+          <Text style={{ fontSize: 20, color: '#fff' }}>удалить</Text>
+      </Button>
     </View>
   );
 }
@@ -36,6 +76,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+  },
+  board: {
+    borderWidth: 1,
+    flex: 1,
+    overflow: 'hidden',
   },
   title: {
     fontSize: 18,
