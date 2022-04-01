@@ -47,10 +47,29 @@ function RootNavigator() {
       <Stack.Screen name="Welcome" component={LoginScreen} />
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-      <Stack.Group screenOptions={{ presentation: 'card' }}>
+      <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Profile" component={ProfileScreen} />
         <Stack.Screen name="NewNote" component={NewNoteScreen} options={{ title: 'Create new note' }} />
-        <Stack.Screen name="EditNote" component={EditNoteScreen} options={{ title: 'Edit note' }} />
+        <Stack.Screen
+          name="EditNote"
+          component={EditNoteScreen}
+          options={{
+            title: 'Edit note',
+            headerRight: () => (
+              <Pressable
+                // onPress={() => navigate('Profile', {userName, userAge, userGender})}
+                style={({ pressed }) => ({
+                  opacity: pressed ? 0.5 : 1,
+                })}>
+                <FontAwesome
+                  name="user-circle"
+                  size={25}
+                  style={{ marginRight: 15 }}
+                />
+              </Pressable>
+            )
+            }}
+        />
       </Stack.Group>
     </Stack.Navigator>
   );
