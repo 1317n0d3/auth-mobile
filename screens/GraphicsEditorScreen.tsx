@@ -13,6 +13,7 @@ interface IFigureData {
   backgroundColor: string,
   borderWidth: number,
   borderColor: string,
+  deg: number,
 }
 
 const SQUARE = 'SQUARE',
@@ -60,6 +61,7 @@ export default function GraphicsEditorScreen() {
       backgroundColor: currentColor,
       borderColor: currentBorder.split(';')[0],
       borderWidth: +currentBorder.split(';')[1],
+      deg: 0,
     }
   }
 
@@ -75,6 +77,7 @@ export default function GraphicsEditorScreen() {
       backgroundColor: currentColor,
       borderColor: currentBorder.split(';')[0],
       borderWidth: +currentBorder.split(';')[1],
+      deg: 0,
     }
   }
 
@@ -91,6 +94,7 @@ export default function GraphicsEditorScreen() {
       backgroundColor: currentColor,
       borderColor: currentBorder.split(';')[0],
       borderWidth: +currentBorder.split(';')[1],
+      deg: Math.atan2(locationStart.y-endY,locationStart.x-endX),
     }
   }
 
@@ -110,6 +114,7 @@ export default function GraphicsEditorScreen() {
               marginTop: value.marginTop,
               borderWidth: value.borderWidth,
               borderColor: value.borderColor,
+              transform: [{ rotateZ: `${value.deg}` }],
             }}
             onTouchEnd={(e) => {
               // console.log(e);
