@@ -11,6 +11,8 @@ interface IFigureData {
   marginTop: number,
   borderRadius: number,
   backgroundColor: string,
+  borderWidth: number,
+  borderColor: string,
 }
 
 const SQUARE = 'SQUARE',
@@ -25,8 +27,11 @@ export default function GraphicsEditorScreen() {
     [currentCoords, setCurrentCoords] = useState(`${locationStart.x};${locationStart.y}`),
     [currentSize, setCurrentSize] = useState(`${locationEnd.x};${locationEnd.y}`),
     [currentColor, setCurrentColor] = useState('#fff'),
-    [currentBorder, setCurrentBorder] = useState('#757575;1'),
-    [currentFigureId, setCurrentFigureId] = useState(0);
+    [currentBorder, setCurrentBorder] = useState('#757575;2'),
+    [currentFigureId, setCurrentFigureId] = useState(0),
+    [isConfirmData, setIsConfirmData] = useState(false);
+
+  useEffect(() => {setIsConfirmData(false)}, [isConfirmData])
 
   function writeFigureData(endX: number, endY: number): IFigureData | null {
     switch(currentFigure) {
@@ -53,6 +58,8 @@ export default function GraphicsEditorScreen() {
         locationStart.y : endY,
       borderRadius: 0,
       backgroundColor: currentColor,
+      borderColor: currentBorder.split(';')[0],
+      borderWidth: +currentBorder.split(';')[1],
     }
   }
 
@@ -60,10 +67,14 @@ export default function GraphicsEditorScreen() {
     return {
       width: Math.round(Math.sqrt(Math.pow(endX - locationStart.x, 2) + Math.pow(endY - locationStart.y, 2))),
       height: Math.round(Math.sqrt(Math.pow(endX - locationStart.x, 2) + Math.pow(endY - locationStart.y, 2))),
-      marginLeft: locationStart.x,
-      marginTop: locationStart.y,
+      marginLeft: endX - locationStart.x > 0 ?
+        locationStart.x : endX,
+      marginTop: endY - locationStart.y > 0 ?
+        locationStart.y : endY,
       borderRadius: 9999,
       backgroundColor: currentColor,
+      borderColor: currentBorder.split(';')[0],
+      borderWidth: +currentBorder.split(';')[1],
     }
   }
 
@@ -78,6 +89,8 @@ export default function GraphicsEditorScreen() {
         locationStart.y : endY,
       borderRadius: 0,
       backgroundColor: currentColor,
+      borderColor: currentBorder.split(';')[0],
+      borderWidth: +currentBorder.split(';')[1],
     }
   }
 
@@ -91,16 +104,17 @@ export default function GraphicsEditorScreen() {
               position: 'absolute',
               backgroundColor: value.backgroundColor,
               borderRadius: value.borderRadius,
-              borderWidth: 1,
               width: value.width,
               height: value.height,
               marginLeft: value.marginLeft,
               marginTop: value.marginTop,
+              borderWidth: value.borderWidth,
+              borderColor: value.borderColor,
             }}
             onTouchEnd={(e) => {
               // console.log(e);
               setCurrentFigureId(i)
-              setCurrentBorder(`${value.borderRadius}`)
+              setCurrentBorder(`${value.borderColor};${value.borderWidth}`)
               setCurrentColor(`${value.backgroundColor}`)
               setCurrentSize(`${value.width};${value.height}`)
               setCurrentCoords(`${value.marginLeft};${value.marginTop}`)
@@ -113,7 +127,7 @@ export default function GraphicsEditorScreen() {
   function clearBoard() {
     setFiguresData([])
     setCurrentFigureId(0)
-    setCurrentBorder(`0`)
+    setCurrentBorder(`#757575;2`)
     setCurrentColor(`#fff`)
     setCurrentSize(`0;0`)
     setCurrentCoords(`0;0`)
@@ -121,6 +135,13 @@ export default function GraphicsEditorScreen() {
 
   function confirmFigureData() {
     figuresData[currentFigureId]!.backgroundColor = currentColor
+    figuresData[currentFigureId]!.borderColor = currentBorder.split(';')[0]
+    figuresData[currentFigureId]!.borderWidth = +currentBorder.split(';')[1]
+    figuresData[currentFigureId]!.marginLeft = +currentCoords.split(';')[0]
+    figuresData[currentFigureId]!.marginTop = +currentCoords.split(';')[1]
+    figuresData[currentFigureId]!.height = +currentSize.split(';')[1]
+    figuresData[currentFigureId]!.width = +currentSize.split(';')[0]
+    setIsConfirmData(true)
   }
 
   return (
@@ -134,7 +155,7 @@ export default function GraphicsEditorScreen() {
               style={ styles.input } 
               placeholder="Линии"
               value={ currentBorder }
-              onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => setCurrentBorder(text.nativeEvent.text)} 
+              onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => setCurrentBorder(text.nativeEvent.text.trim())} 
             />
           </View>
           <View style={ styles.rowContainer }>
@@ -149,7 +170,7 @@ export default function GraphicsEditorScreen() {
               }} 
               placeholder="Заливка"
               value={ currentColor }
-              onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => setCurrentColor(text.nativeEvent.text)} 
+              onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => setCurrentColor(text.nativeEvent.text.trim())} 
             />
           </View>
         </View>
@@ -160,7 +181,7 @@ export default function GraphicsEditorScreen() {
               style={ styles.input } 
               placeholder="Координаты"
               value={ currentCoords }
-              onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => setCurrentCoords(text.nativeEvent.text)} 
+              onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => setCurrentCoords(text.nativeEvent.text.trim())} 
             />
           </View>
           <View style={ styles.rowContainer }>
@@ -169,7 +190,7 @@ export default function GraphicsEditorScreen() {
               style={ styles.input } 
               placeholder="Размер"
               value={ currentSize }
-              onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => setCurrentSize(text.nativeEvent.text)} 
+              onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => setCurrentSize(text.nativeEvent.text.trim())} 
             />
           </View>
         </View>
