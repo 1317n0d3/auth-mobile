@@ -70,6 +70,7 @@ export default function NotesScreen({ navigation, route }: RootTabScreenProps<'N
               noteInput: value.note,
               tagsInput: value.tags,
               noteId: value.id,
+              dataTags: tags,
             })
           }}>
 

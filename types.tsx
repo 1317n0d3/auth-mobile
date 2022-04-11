@@ -21,7 +21,7 @@ export type RootStackParamList = {
   Profile: { userName: string, userAge: number, userGender: string };
   NotFound: undefined;
   NewNote: undefined;
-  EditNote: { noteInput: string, tagsInput: string | null, noteId: number };
+  EditNote: { noteInput: string, tagsInput: string | null, noteId: number, dataTags: string[] };
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<

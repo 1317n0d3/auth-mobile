@@ -10,8 +10,9 @@ import { RootStackScreenProps, RootTabScreenProps } from '../types';
 
 export default function EditNoteScreen({ navigation, route }: RootStackScreenProps<'EditNote'>) {
   const [noteInput, setNoteInput] = useState<string>(route.params.noteInput),
-    [tagsInput, setTagsInput] = useState<string | null>(route.params.tagsInput),
-    noteId: number = route.params.noteId;
+    [tagsInput, setTagsInput] = useState<string | null>(route.params.tagsInput || ''),
+    noteId: number = route.params.noteId,
+    tags: string[] = route.params.dataTags;
 
   function updateNote(id: number) {
     const requestOptions = {
@@ -35,6 +36,20 @@ export default function EditNoteScreen({ navigation, route }: RootStackScreenPro
       .then(response => response.json())
   }
 
+  function createTags() {
+    return tags.map((tag, i) => {
+      if(!tagsInput?.includes(tag))
+        return (
+        <TouchableOpacity style={ styles.tagContainer } key={`tag-${i}`}
+          onPress={() => {
+            // setActiveTag(tag);
+            setTagsInput(tagsInput + ' ' + tag)
+          }}>
+          <Text>#{tag}</Text>
+        </TouchableOpacity>
+      )})
+  }
+
   return (
     <ScrollView style={ styles.container }>
       <View style={ styles.flexRow } >
@@ -51,6 +66,11 @@ export default function EditNoteScreen({ navigation, route }: RootStackScreenPro
           <Text style={{ fontSize: 16, color: '#fff' }}>✓</Text>
         </Button>
       </View>
+
+      <ScrollView horizontal={ true } style={ styles.tagsContainer }>
+        { createTags() }
+      </ScrollView>
+
       <TextInput style={ styles.inputNote } placeholder="Введите текст"
         multiline={ true }
         value={noteInput}
@@ -89,6 +109,22 @@ const styles = StyleSheet.create({
     padding: 10,
     color: 'white',
   },
+  tagsContainer: {
+    flexDirection: 'row',
+    marginBottom: 12,
+  },
+  activeTagContainer: {
+    margin: 7,
+    padding: 11,
+    backgroundColor: '#ffa53d',
+    borderRadius: 16,
+  },
+  tagContainer: {
+    margin: 7,
+    padding: 11,
+    backgroundColor: '#e8e8e8',
+    borderRadius: 16,
+  },
   separator: {
     marginVertical: 30,
     height: 1,
@@ -102,7 +138,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   inputNote: {
-    height: 400,
+    height: 350,
     margin: 12,
     padding: 10,
     backgroundColor: 'white',
