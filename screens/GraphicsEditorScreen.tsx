@@ -10,6 +10,7 @@ interface IFigureData {
   marginLeft: number,
   marginTop: number,
   borderRadius: number,
+  backgroundColor: string,
 }
 
 const SQUARE = 'SQUARE',
@@ -19,10 +20,15 @@ const SQUARE = 'SQUARE',
 export default function GraphicsEditorScreen() {
   const [locationStart, setLocationStart] = useState({ x: 0, y: 0 }),
     [locationEnd, setLocationEnd] = useState({ x: 0, y: 0 }),
-    [figuresData, setFiguresData] = useState<Array<IFigureData>>([]),
-    [currentFigure, setCurrentFigure] = useState(SQUARE);
+    [figuresData, setFiguresData] = useState<Array<IFigureData | null>>([]),
+    [currentFigure, setCurrentFigure] = useState(''),
+    [currentCoords, setCurrentCoords] = useState(`${locationStart.x};${locationStart.y}`),
+    [currentSize, setCurrentSize] = useState(`${locationEnd.x};${locationEnd.y}`),
+    [currentColor, setCurrentColor] = useState('#fff'),
+    [currentBorder, setCurrentBorder] = useState('#757575;1'),
+    [currentFigureId, setCurrentFigureId] = useState(0);
 
-  function writeFigureData(endX: number, endY: number): IFigureData {
+  function writeFigureData(endX: number, endY: number): IFigureData | null {
     switch(currentFigure) {
       case SQUARE:
         return writeSquareData(endX, endY)
@@ -31,7 +37,7 @@ export default function GraphicsEditorScreen() {
       case LINE:
         return writeLineData(endX, endY)
       default:
-        return writeSquareData(endX, endY)
+        return null;
     }
   }
 
@@ -46,20 +52,18 @@ export default function GraphicsEditorScreen() {
       marginTop: endY - locationStart.y > 0 ?
         locationStart.y : endY,
       borderRadius: 0,
+      backgroundColor: currentColor,
     }
   }
 
   function writeCircleData(endX: number, endY: number): IFigureData {
     return {
-      width: endX - locationStart.x > 0 ?
-        endX - locationStart.x : locationStart.x - endX,
-      height: endY - locationStart.y > 0 ?
-        endY - locationStart.y : locationStart.y - endY,
-      marginLeft: endX - locationStart.x > 0 ?
-        locationStart.x : endX,
-      marginTop: endY - locationStart.y > 0 ?
-        locationStart.y : endY,
+      width: Math.round(Math.sqrt(Math.pow(endX - locationStart.x, 2) + Math.pow(endY - locationStart.y, 2))),
+      height: Math.round(Math.sqrt(Math.pow(endX - locationStart.x, 2) + Math.pow(endY - locationStart.y, 2))),
+      marginLeft: locationStart.x,
+      marginTop: locationStart.y,
       borderRadius: 9999,
+      backgroundColor: currentColor,
     }
   }
 
@@ -73,28 +77,50 @@ export default function GraphicsEditorScreen() {
       marginTop: endY - locationStart.y > 0 ?
         locationStart.y : endY,
       borderRadius: 0,
+      backgroundColor: currentColor,
     }
   }
 
-  function drawFigures(): Array<JSX.Element> {
+  function drawFigures(): Array<JSX.Element | null> {
     return figuresData.map((value, i) => {
-      return (
-        <View
-          key={`figure-${i}`}
-          style={{
-            position: 'absolute',
-            backgroundColor: 'gray',
-            borderRadius: value.borderRadius,
-            borderWidth: 1,
-            width: value.width,
-            height: value.height,
-            marginLeft: value.marginLeft,
-            marginTop: value.marginTop,
-          }}
-          onTouchMove={(e) => {
-            // console.log(e);
-          }} />
-      )})
+      if(value) {
+        return (
+          <View
+            key={`figure-${i}`}
+            style={{
+              position: 'absolute',
+              backgroundColor: value.backgroundColor,
+              borderRadius: value.borderRadius,
+              borderWidth: 1,
+              width: value.width,
+              height: value.height,
+              marginLeft: value.marginLeft,
+              marginTop: value.marginTop,
+            }}
+            onTouchEnd={(e) => {
+              // console.log(e);
+              setCurrentFigureId(i)
+              setCurrentBorder(`${value.borderRadius}`)
+              setCurrentColor(`${value.backgroundColor}`)
+              setCurrentSize(`${value.width};${value.height}`)
+              setCurrentCoords(`${value.marginLeft};${value.marginTop}`)
+            }} 
+          />
+        )
+      } else return null})
+  }
+
+  function clearBoard() {
+    setFiguresData([])
+    setCurrentFigureId(0)
+    setCurrentBorder(`0`)
+    setCurrentColor(`#fff`)
+    setCurrentSize(`0;0`)
+    setCurrentCoords(`0;0`)
+  }
+
+  function confirmFigureData() {
+    figuresData[currentFigureId]!.backgroundColor = currentColor
   }
 
   return (
@@ -107,17 +133,23 @@ export default function GraphicsEditorScreen() {
             <TextInput 
               style={ styles.input } 
               placeholder="Линии"
-              value='#757575;1'
-              onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => {}} 
+              value={ currentBorder }
+              onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => setCurrentBorder(text.nativeEvent.text)} 
             />
           </View>
           <View style={ styles.rowContainer }>
             <Text style={ styles.topBarText }>Заливка</Text>
             <TextInput 
-              style={ styles.input } 
+              style={{ 
+                backgroundColor: currentColor,
+                height: 30,
+                margin: 7,
+                borderWidth: 1,
+                padding: 7 
+              }} 
               placeholder="Заливка"
-              value='#292929'
-              onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => {}} 
+              value={ currentColor }
+              onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => setCurrentColor(text.nativeEvent.text)} 
             />
           </View>
         </View>
@@ -127,8 +159,8 @@ export default function GraphicsEditorScreen() {
             <TextInput 
               style={ styles.input } 
               placeholder="Координаты"
-              value='0;0'
-              onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => {}} 
+              value={ currentCoords }
+              onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => setCurrentCoords(text.nativeEvent.text)} 
             />
           </View>
           <View style={ styles.rowContainer }>
@@ -136,8 +168,8 @@ export default function GraphicsEditorScreen() {
             <TextInput 
               style={ styles.input } 
               placeholder="Размер"
-              value='0;0'
-              onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => {}} 
+              value={ currentSize }
+              onChange={(text: NativeSyntheticEvent<TextInputChangeEventData>) => setCurrentSize(text.nativeEvent.text)} 
             />
           </View>
         </View>
@@ -149,7 +181,8 @@ export default function GraphicsEditorScreen() {
       }}
       onTouchEnd={(e) => {
         setLocationEnd({ x: e.nativeEvent.locationX, y: e.nativeEvent.locationY }); 
-        figuresData.push(writeFigureData(e.nativeEvent.locationX, e.nativeEvent.locationY))
+        figuresData.push(writeFigureData(e.nativeEvent.locationX, e.nativeEvent.locationY));
+        setCurrentFigure('');
       }}>
 
       { drawFigures() }
@@ -174,10 +207,14 @@ export default function GraphicsEditorScreen() {
         </Button>
       </View>
 
-
-      <Button onPress={() => setFiguresData([])} style={ styles.buttonDelete } >
-          <Text style={{ fontSize: 20, color: '#fff' }}>X</Text>
-      </Button>
+      <View style={ styles.rowContainer }>
+        <Button onPress={confirmFigureData} style={ styles.buttonConfirm } >
+            <Text style={{ fontSize: 20, color: '#fff' }}>✓</Text>
+        </Button>
+        <Button onPress={clearBoard} style={ styles.buttonDelete } >
+            <Text style={{ fontSize: 20, color: '#fff' }}>X</Text>
+        </Button>
+      </View>
     </View>
   );
 }
@@ -219,6 +256,10 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 10,
     backgroundColor: '#757575',
+  },
+  buttonConfirm: {
+    marginTop: 10,
+    backgroundColor: 'green',
   },
   buttonDelete: {
     marginTop: 10,
